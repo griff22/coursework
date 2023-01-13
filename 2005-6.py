@@ -56,3 +56,26 @@ for year in range(2005, 2006):
 conn.commit()
 #
 # query 1. When is best time of day/ day of week/ time of year to minimise delays?
+c.execute('''
+SELECT month AS month, AVG(ontime.DepDelay) AS avg_delay
+FROM ontime
+WHERE ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
+GROUP BY Month
+GROUP by DayOfMonth
+GROUP by DayOfWeek
+GROUP by DepTime
+ORDER BY avg_delay
+''')
+print(c.fetchone()[0], "has the lowest associated average departure delay.")
+#
+# query 2. Do older plane suffer more delays?
+c.execute('''
+SELECT year AS year, AVG(ontime.DepDelay) AS avg_delay
+FROM planes JOIN ontime USING(tailnum)
+WHERE ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
+GROUP BY year
+ORDER BY avg_delay
+''')
+print("planes made in" c.fetchone()[0],"have the lowest associated average departure delay.")
+#
+# query 3. How does number of people flying between different locations change over time?
