@@ -67,6 +67,7 @@ GROUP by DepTime
 ORDER BY avg_delay
 ''')
 print(c.fetchone()[0], "has the lowest associated average departure delay.")
+# how plot?
 #
 # query 2. Do older plane suffer more delays?
 c.execute('''
@@ -77,5 +78,26 @@ GROUP BY year
 ORDER BY avg_delay
 ''')
 print("planes made in" c.fetchone()[0],"have the lowest associated average departure delay.")
+# how plot?
 #
 # query 3. How does number of people flying between different locations change over time?
+c.execute('''
+SELECT airports.city AS city, COUNT(*) AS total
+FROM airports JOIN ontime ON ontime.dest = airports.iata
+WHERE ontime.Cancelled = 0
+GROUP BY airports.city
+GROUP BY Year
+ORDER BY total DESC
+''')
+print(c.fetchone()[0], "has the highest number of inbound flights (excluding canceled flights)")
+# plot?
+c.execute('''
+SELECT airports.city AS city, COUNT(*) AS total
+FROM airports JOIN ontime ON ontime.origin = airports.iata
+WHERE ontime.Cancelled = 0
+GROUP BY airports.city
+GROUP BY Year
+ORDER BY total DESC
+''')
+print(c.fetchone()[0], "has the highest number of outbound flights (excluding canceled flights)")
+# plot?
