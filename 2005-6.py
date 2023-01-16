@@ -55,18 +55,31 @@ for year in range(2005, 2006):
     ontime.to_sql('ontime', con = conn, if_exists = 'append', index = False)
 conn.commit()
 #
-# query 1. When is best time of day/ day of week/ time of year to minimise delays?
+# Query 1. When is best time of day/ day of week/ time of year to minimise delays?
 c.execute('''
 SELECT month AS month, AVG(ontime.DepDelay) AS avg_delay
 FROM ontime
 WHERE ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
 GROUP BY Month
-GROUP by DayOfMonth
-GROUP by DayOfWeek
-GROUP by DepTime
 ORDER BY avg_delay
 ''')
-print(c.fetchone()[0], "has the lowest associated average departure delay.")
+c.fetchone()[0] <- month_lowest
+print("c.fetchone()[0], "month has the lowest associated average departure delay.")
+#
+SELECT DayOfMonth AS cal_day, AVG(ontime.DepDelay) AS avg_delay
+FROM ontime
+WHERE ontime.month = month_lowest AND ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
+GROUP BY cal_day
+ORDER BY avg_delay
+''')
+c.fetchone()[0] <- cal_day_lowest
+print("c.fetchone()[0], "calendar day has the lowest associated average departure delay in that month.")     
+#      
+#     
+#     
+#    
+#     
+#     
 # how plot?
 #
 # query 2. Do older plane suffer more delays?
