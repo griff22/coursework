@@ -1,88 +1,75 @@
 # preparation
 import sqlite3
 import pandas as pd
-import os
+import matplotlib.pyplot as pltimport sqlite3
 # 
 # create database
-conn = sqlite3.connect ('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights0506.db')
+conn = sqlite3.connect('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights.db')
 # 
-# create tables supp info
-airports = pd.read_csv('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/airports.csv')
-carriers = pd.read_csv('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/carriers.csv')
-planes = pd.read_csv('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/plane-data.csv')
-airports.to_sql('airports', con = conn, index = False)
-carriers.to_sql('carriers', con = conn, index = False)
-planes.to_sql('planes', con = conn, index = False)
+# initialise dataframes
+df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
+df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
+df_pl = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/plane-data.csv")
+airports = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/datverse/airports.csv")
+carriers = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/carriers.csv")
 #
-# create table main data ontime
-c = conn.cursor()
-c.execute('''
-CREATE TABLE ontime (
-  Year int,
-  Month int,
-  DayofMonth int,
-  DayOfWeek int,
-  DepTime  int,
-  CRSDepTime int,
-  ArrTime int,
-  CRSArrTime int,
-  UniqueCarrier varchar(5),
-  FlightNum int,
-  TailNum varchar(8),
-  ActualElapsedTime int,
-  CRSElapsedTime int,
-  AirTime int,
-  ArrDelay int,
-  DepDelay int,
-  Origin varchar(3),
-  Dest varchar(3),
-  Distance int,
-  TaxiIn int,
-  TaxiOut int,
-  Cancelled int,
-  CancellationCode varchar(1),
-  Diverted varchar(1),
-  CarrierDelay int,
-  WeatherDelay int,
-  NASDelay int,
-  SecurityDelay int,
-  LateAircraftDelay int
-)
-''')
-conn.commit()
-for year in range(2005, 2006):
-    ontime = pd.read_csv('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/'+str(year)+'.csv')
-    ontime.to_sql('ontime', con = conn, if_exists = 'append', index = False)
-conn.commit()
+# insert data into database
+df_05.to_sql('flights', con=conn, index=False, if_exists='replace')
+df_06.to_sql('flights', con=conn, index=False, if_exists='append')
 #
-# Query 1. When is best time of day/ day of week/ time of year to minimise delays?
-c.execute('''
-SELECT month AS month, AVG(ontime.DepDelay) AS avg_delay
-FROM ontime
-WHERE ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
-GROUP BY Month
-ORDER BY avg_delay
-''')
-c.fetchone()[0] <- month_lowest
-print("c.fetchone()[0], "month has the lowest associated average departure delay.")
+# QUERY 1
+# Average delay per month query
+cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY month;')
+avg_delay_month = cur.fetchall()
+# Average delay per month plot
+# avg_delay_month = {k: v for k,v in avg_delay_month} # turns query result into dictionary
+plt.bar(avg_delay_month.keys(), avg_delay_month.values())
+# answer is April
 #
-SELECT DayOfMonth AS cal_day, AVG(ontime.DepDelay) AS avg_delay
-FROM ontime
-WHERE ontime.month = month_lowest AND ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
-GROUP BY cal_day
-ORDER BY avg_delay
-''')
-c.fetchone()[0] <- cal_day_lowest
-print("c.fetchone()[0], "calendar day has the lowest associated average departure delay in that month.")     
-#      
-#     
-#     
-#    
-#     
-#     
-# how plot?
+# Average delay per day of week
+cur.execute('''
+    SELECT
+        DayOfWeek, AVG(DepDelay) 
+    FROM
+        flights
+    WHERE
+        Cancelled=0
+        AND DepDelay>=0
+        AND Month=4
+    GROUP BY 
+        DayOfWeek
+    ;''')
+avg_delay_dow = cur.fetchall()
+# Average delay per dow plot
+avg_delay_dow = {k: v for k,v in avg_delay_dow} # turns query result into dictionary
+plt.bar(avg_delay_dow.keys(), avg_delay_dow.values())
+# answer is Tuesday
 #
-# query 2. Do older plane suffer more delays?
+# Average delay per hour of day
+cur.execute('''
+        SELECT
+        SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3), AVG(DepDelay) 
+    FROM
+        flights
+    WHERE
+        Cancelled=0
+        AND DepDelay>=0
+        AND Month=4
+        AND DayOfWeek=6
+    GROUP BY 
+        SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)
+    ;''')
+avg_delay_hod = cur.fetchall()
+# Average delay per hod plot
+avg_delay_hod = {k: v for k,v in avg_delay_hod} # turns query result into dictionary
+plt.figure(figsize=(20, 10))
+plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
+# answer is 0600-0700
+# ISSUES re 25 hours??
+#
+#
+#
+# QUERY 2. Do older plane suffer more delays?
 c.execute('''
 SELECT year AS year, AVG(ontime.DepDelay) AS avg_delay
 FROM planes JOIN ontime USING(tailnum)
