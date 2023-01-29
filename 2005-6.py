@@ -47,7 +47,7 @@ plt.bar(avg_delay_dow.keys(), avg_delay_dow.values())
 #
 # Average delay per hour of day
 cur.execute('''
-        SELECT
+    SELECT
         SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3), AVG(DepDelay) 
     FROM
         flights
