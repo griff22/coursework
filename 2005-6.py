@@ -2,21 +2,21 @@
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as pltimport sqlite3
-# 
+# -------------------------------------------
 # create database
 conn = sqlite3.connect('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights.db')
-# 
+# -------------------------------------------
 # initialise dataframes
 df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
 df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
 df_pl = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/plane-data.csv")
 airports = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/datverse/airports.csv")
 carriers = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/carriers.csv")
-#
+# -------------------------------------------
 # insert data into database
 df_05.to_sql('flights', con=conn, index=False, if_exists='replace')
 df_06.to_sql('flights', con=conn, index=False, if_exists='append')
-#
+# -------------------------------------------
 # QUERY 1
 # Average delay per month query
 cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY month;')
@@ -68,7 +68,7 @@ plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
 # ISSUES re 25 hours??
 #
 #
-#
+# -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
 SELECT *, (2023 - "year") FROM "plane-data";
 SELECT * FROM "plane-data";
@@ -80,10 +80,15 @@ SELECT
 	AVG(DepDelay)
 FROM temp_query
 WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
-GROUP BY AgeAtDep
-# missing line of fit
-#
-# query 3. How does number of people flying between different locations change over time?
+GROUP BY AgeAtDep;
+''')
+avg_delay_ageatdep = cur.fetchall()
+avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
+plt.figure(figsize=(20, 10))
+plt.bar(avg_delay_ageatdep.keys(), avg_delay_ageatdep.values())
+# missing line of fit?
+# ------------------------------------------
+# QUERY 3. How does number of people flying between different locations change over time?
 c.execute('''
 SELECT airports.city AS city, COUNT(*) AS total
 FROM airports JOIN ontime ON ontime.dest = airports.iata
