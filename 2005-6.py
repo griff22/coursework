@@ -70,15 +70,18 @@ plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
 #
 #
 # QUERY 2. Do older plane suffer more delays?
-c.execute('''
-SELECT year AS year, AVG(ontime.DepDelay) AS avg_delay
-FROM planes JOIN ontime USING(tailnum)
-WHERE ontime.Cancelled = 0 AND ontime.Diverted = 0 AND ontime.DepDelay > 0
-GROUP BY year
-ORDER BY avg_delay
-''')
-print("planes made in" c.fetchone()[0],"have the lowest associated average departure delay.")
-# how plot?
+SELECT *, (2023 - "year") FROM "plane-data";
+SELECT * FROM "plane-data";
+SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum ORDER BY (flights."Year" - "plane-data".Year) ASC NULLS LAST;
+WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
+SELECT
+	AgeAtDep,
+	--COUNT(*),
+	AVG(DepDelay)
+FROM temp_query
+WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
+GROUP BY AgeAtDep
+# missing line of fit
 #
 # query 3. How does number of people flying between different locations change over time?
 c.execute('''
