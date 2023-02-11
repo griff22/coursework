@@ -87,6 +87,8 @@ avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_ageatdep.keys(), avg_delay_ageatdep.values())
 # missing line of fit?
+a, b = np.polyfit(k, v, 1)
+plt.plot(k, a*k+b)
 # ------------------------------------------
 # QUERY 3. How does number of people flying between different locations change over time?
 c.execute('''
