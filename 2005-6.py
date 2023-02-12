@@ -1,7 +1,9 @@
 # preparation
 import sqlite3
 import pandas as pd
-import matplotlib.pyplot as pltimport sqlite3
+import matplotlib.pyplot as plt
+import numpy as np
+import networkx as nx
 # -------------------------------------------
 # create database
 conn = sqlite3.connect('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights.db')
@@ -102,12 +104,7 @@ plt.bar(x, y)
 fit[0]*x + fit[1]
 # ------------------------------------------
 # QUERY 3. How does number of people flying between different locations change over time?
-import sqlite3
-import numpy as np
-import networkx as nx
-import pandas as pd
-import matplotlib.pyplot as plt
-conn = sqlite3.connect('./flights.db')
+# 2005
 year = 2005
 query = f'SELECT origin, dest, count(*) weight FROM flights WHERE year={year} GROUP BY origin, dest ORDER BY origin, dest;'
 cur = conn.cursor()
