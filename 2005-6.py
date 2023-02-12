@@ -86,28 +86,49 @@ avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_ageatdep.keys(), avg_delay_ageatdep.values())
-# missing line of fit?
-a, b = np.polyfit(k, v, 1)
-plt.plot(k, a*k+b)
+#
+# line of fit
+# x = [float(key) for key in avg_delay_ageatdep.keys()]
+x = np.array([float(key) for key in avg_delay_ageatdep.keys()])
+y = np.array([float(value) for value in avg_delay_ageatdep.values()])
+#
+#Applying a linear fit with .polyfit()
+fit = np.polyfit(x, y, deg=1)
+#
+plt.figure(figsize=(20, 10))
+plt.plot(x, fit[0] * x + fit[1], color='r')
+plt.bar(x, y)
+# Line equation
+fit[0]*x + fit[1]
 # ------------------------------------------
 # QUERY 3. How does number of people flying between different locations change over time?
-c.execute('''
-SELECT airports.city AS city, COUNT(*) AS total
-FROM airports JOIN ontime ON ontime.dest = airports.iata
-WHERE ontime.Cancelled = 0
-GROUP BY airports.city
-GROUP BY Year
-ORDER BY total DESC
-''')
-print(c.fetchone()[0], "has the highest number of inbound flights (excluding canceled flights)")
-# plot?
-c.execute('''
-SELECT airports.city AS city, COUNT(*) AS total
-FROM airports JOIN ontime ON ontime.origin = airports.iata
-WHERE ontime.Cancelled = 0
-GROUP BY airports.city
-GROUP BY Year
-ORDER BY total DESC
-''')
-print(c.fetchone()[0], "has the highest number of outbound flights (excluding canceled flights)")
-# plot?
+import sqlite3
+import numpy as np
+import networkx as nx
+import pandas as pd
+import matplotlib.pyplot as plt
+conn = sqlite3.connect('./flights.db')
+year = 2005
+query = f'SELECT origin, dest, count(*) weight FROM flights WHERE year={year} GROUP BY origin, dest ORDER BY origin, dest;'
+cur = conn.cursor()
+cur.execute(query)
+df = pd.DataFrame(cur.fetchall(), columns=['Origin', 'Destination', 'Weight'])
+digraph = nx.DiGraph()
+# Add the nodes (airports)
+for tup in df.itertuples():
+    digraph.add_node(tup.Origin)
+    digraph.add_node(tup.Destination)
+# Add the weights (number of flights between nodes)
+for tup in df.itertuples():
+    digraph.add_weighted_edges_from([(tup.Origin, tup.Destination, tup.Weight)])
+from matplotlib.pyplot import figure
+figure(figsize=(25, 17))
+nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
+# refine 2005 then 2006 & compare......
+
+
+
+
+
+
+
