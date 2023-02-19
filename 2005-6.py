@@ -122,10 +122,25 @@ from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
 # refine 2005 then 2006 & compare......
-
-
-
-
-
-
-
+# -------------------------
+# Query 4. Cascading delays from one airport to another.
+query = '''
+WITH origin AS (SELECT COUNT(*) count_origin, AVG(DepDelay) avg_delay_origin, Origin airport FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY Origin ORDER BY AVG(DepDelay) DESC NULLS LAST),
+destination AS(SELECT COUNT(*) count_dest, AVG(DepDelay) avg_delay_dest, Dest airport FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY Dest ORDER BY AVG(DepDelay) DESC NULLS LAST)
+SELECT * FROM origin JOIN destination ON origin.airport = destination.airport;'''
+cur.execute(query)
+df = pd.DataFrame(cur.fetchall(), columns=['count_origin', 'avg_delay_dest', 'airport', 'count_dest', 'avg_delay_origin', '_'])
+fig, ax = plt.subplots(figsize=(10, 10))
+plt.xlim([0, 100])
+plt.ylim([0, 100])
+ax.scatter(df['avg_delay_dest'], df['avg_delay_origin'])
+ax.plot(line)
+plt.xlabel("to")
+plt.ylabel("from")
+for i, txt in enumerate(df['airport']):
+    ax.annotate(txt, (df['avg_delay_dest'][i], df['avg_delay_origin'][i]))
+import numpy as np
+fit = np.polyfit(df['avg_delay_dest'], df['avg_delay_origin'], deg=1)
+line = fit[0]*df['avg_delay_dest'] + fit[1]
+# polyfit not working? need line plot and equation.
+#
