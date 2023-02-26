@@ -21,7 +21,7 @@ df_06.to_sql('flights', con=conn, index=False, if_exists='append')
 # -------------------------------------------
 # QUERY 1
 # Average delay per month query
-cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY month;')
+cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay IS NOT NULL GROUP BY month;')
 avg_delay_month = cur.fetchall()
 # Average delay per month plot
 # avg_delay_month = {k: v for k,v in avg_delay_month} # turns query result into dictionary
@@ -36,7 +36,7 @@ cur.execute('''
         flights
     WHERE
         Cancelled=0
-        AND DepDelay>=0
+        AND DepDelay IS NOT NULL
         AND Month=4
     GROUP BY 
         DayOfWeek
@@ -57,7 +57,7 @@ cur.execute('''
         Cancelled=0
         AND DepDelay>=0
         AND Month=4
-        AND DayOfWeek=6
+        AND DayOfWeek=2
     GROUP BY 
         SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)
     ;''')
@@ -66,42 +66,43 @@ avg_delay_hod = cur.fetchall()
 avg_delay_hod = {k: v for k,v in avg_delay_hod} # turns query result into dictionary
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
-# answer is 0600-0700
-# ISSUES re 25 hours??
+# answer is 0500-0600
+# Final answer is Tuesday in April at 0500-0600
 #
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
-SELECT *, (2023 - "year") FROM "plane-data";
-SELECT * FROM "plane-data";
-SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum ORDER BY (flights."Year" - "plane-data".Year) ASC NULLS LAST;
+cur.execute('''
 WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
 SELECT
 	AgeAtDep,
-	--COUNT(*),
 	AVG(DepDelay)
 FROM temp_query
 WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
+# ----------- why these error years excluded? -----------
 GROUP BY AgeAtDep;
 ''')
 avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
+# 
+# plot & linear line of fit
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_ageatdep.keys(), avg_delay_ageatdep.values())
-#
-# line of fit
-# x = [float(key) for key in avg_delay_ageatdep.keys()]
 x = np.array([float(key) for key in avg_delay_ageatdep.keys()])
 y = np.array([float(value) for value in avg_delay_ageatdep.values()])
-#
-#Applying a linear fit with .polyfit()
-fit = np.polyfit(x, y, deg=1)
-#
+m, c = np.polyfit(x, y, deg=1)
 plt.figure(figsize=(20, 10))
-plt.plot(x, fit[0] * x + fit[1], color='r')
+plt.plot(x, m * x + c, color='orange')
 plt.bar(x, y)
 # Line equation
-fit[0]*x + fit[1]
+print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
+# answer gradient +0.08, intercept +22.9
+# answer is yes, older planes suffer more delays
+# ie. each year older, adds 0.08 minute delay
+# eg. 50 year old aircraft adds 50*0.08=4 minutes delay
+# odd that no planes 45 years old ie. none made in 1960 & 1961 but unable to determine reason for this.
+#
+#
 # ------------------------------------------
 # QUERY 3. How does number of people flying between different locations change over time?
 # 2005
@@ -121,9 +122,30 @@ for tup in df.itertuples():
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
-# refine 2005 then 2006 & compare......
+#
+# 2006
+year = 2006
+query = f'SELECT origin, dest, count(*) weight FROM flights WHERE year={year} GROUP BY origin, dest ORDER BY origin, dest;'
+cur = conn.cursor()
+cur.execute(query)
+df = pd.DataFrame(cur.fetchall(), columns=['Origin', 'Destination', 'Weight'])
+digraph = nx.DiGraph()
+# Add the nodes (airports)
+for tup in df.itertuples():
+    digraph.add_node(tup.Origin)
+    digraph.add_node(tup.Destination)
+# Add the weights (number of flights between nodes)
+for tup in df.itertuples():
+    digraph.add_weighted_edges_from([(tup.Origin, tup.Destination, tup.Weight)])
+from matplotlib.pyplot import figure
+figure(figsize=(25, 17))
+nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
+# comparing the two years graohic results, no significant differences in node networks
+# answer: there is no significant difference between the years in pattern of travel
+#
+#
 # -------------------------
-# Query 4. Cascading delays from one airport to another.
+# QUERY 4. Cascading delays from one airport to another.
 query = '''
 WITH origin AS (SELECT COUNT(*) count_origin, AVG(DepDelay) avg_delay_origin, Origin airport FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY Origin ORDER BY AVG(DepDelay) DESC NULLS LAST),
 destination AS(SELECT COUNT(*) count_dest, AVG(DepDelay) avg_delay_dest, Dest airport FROM flights WHERE Cancelled=0 AND DepDelay>=0 GROUP BY Dest ORDER BY AVG(DepDelay) DESC NULLS LAST)
