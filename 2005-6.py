@@ -24,7 +24,6 @@ df_06.to_sql('flights', con=conn, index=False, if_exists='append')
 cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay IS NOT NULL GROUP BY month;')
 avg_delay_month = cur.fetchall()
 # Average delay per month plot
-# avg_delay_month = {k: v for k,v in avg_delay_month} # turns query result into dictionary
 plt.bar(avg_delay_month.keys(), avg_delay_month.values())
 # answer is April
 #
