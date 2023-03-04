@@ -36,6 +36,11 @@ avg_delay_month = cur.fetchall()
 avg_delay_month = {k: v for k,v in avg_delay_month}
 # Average delay per month plot
 plt.bar(avg_delay_month.keys(), avg_delay_month.values())
+plt.xticks(np.arange(1, 13, 1))
+plt.xlabel('Month Jan-Dec')
+plt.ylabel('Minutes Delay')
+plt.title('Average Departure Delay per Month (minutes)')
+# x = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png') # new 4 March needs Legends and Axes
 # answer is April
 #
