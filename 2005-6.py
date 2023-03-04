@@ -9,23 +9,35 @@ import networkx as nx
 conn = sqlite3.connect('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights.db')
 # -------------------------------------------
 # initialise dataframes
+
 df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
 df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
 df_pl = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/plane-data.csv")
-airports = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/airports.csv")
-carriers = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/carriers.csv")
+df_ap = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/airports.csv")
+df_ca = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/carriers.csv")
+df_vd = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/variable-descriptions.csv")
 # -------------------------------------------
 # insert data into database
 df_05.to_sql('flights', con=conn, index=False, if_exists='replace')
 df_06.to_sql('flights', con=conn, index=False, if_exists='append')
+df_pl.to_sql('plane-data', con=conn, index=False, if_exists='replace')
+df_ap.to_sql('airports', con=conn, index=False, if_exists='replace')
+df_ca.to_sql('carriers', con=conn, index=False, if_exists='replace')
+df_vd.to_sql('variable-descriptions', con=conn, index=False, if_exists='replace')
+# define cur
+cur = conn.cursor()
+# Checks the data is there
+cur.execute('SELECT COUNT(*) FROM flights;')
+cur.fetchall()
 # -------------------------------------------
 # QUERY 1
 # Average delay per month query
 cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay IS NOT NULL GROUP BY month;')
 avg_delay_month = cur.fetchall()
+avg_delay_month = {k: v for k,v in avg_delay_month}
 # Average delay per month plot
 plt.bar(avg_delay_month.keys(), avg_delay_month.values())
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png') # new 4 March
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png') # new 4 March needs Legends and Axes
 # answer is April
 #
 # Average delay per day of week
@@ -41,10 +53,11 @@ cur.execute('''
     GROUP BY 
         DayOfWeek
     ;''')
-avg_delay_dow = cur.fetchall()
+avg_delay_dow = cur.fetchall() #dow is day of week
 # Average delay per dow plot
 avg_delay_dow = {k: v for k,v in avg_delay_dow} # turns query result into dictionary
 plt.bar(avg_delay_dow.keys(), avg_delay_dow.values())
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/day.png') # new 4 March needs Legends and Axes
 # answer is Tuesday
 #
 # Average delay per hour of day
@@ -61,11 +74,12 @@ cur.execute('''
     GROUP BY 
         SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)
     ;''')
-avg_delay_hod = cur.fetchall()
+avg_delay_hod = cur.fetchall() #hod is hour of day
 # Average delay per hod plot
 avg_delay_hod = {k: v for k,v in avg_delay_hod} # turns query result into dictionary
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hour.png') # new 4 March needs Legends and Axes
 # answer is 0500-0600
 # Final answer is Tuesday in April at 0500-0600
 #
