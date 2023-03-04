@@ -25,6 +25,7 @@ cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepD
 avg_delay_month = cur.fetchall()
 # Average delay per month plot
 plt.bar(avg_delay_month.keys(), avg_delay_month.values())
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png') # new 4 March
 # answer is April
 #
 # Average delay per day of week
