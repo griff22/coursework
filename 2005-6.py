@@ -165,6 +165,7 @@ for tup in df.itertuples():
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
+plt.legend('2005 all airports') # needs fix?
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/05nodes.png')
 #
 # 2006
@@ -206,9 +207,33 @@ df
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
+plt.legend('Top 10 networks 2005')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
+#
+# top 10 for 2006
+year = 2006
+query = f'SELECT origin, dest, count(*) weight FROM flights WHERE year={year} GROUP BY origin, dest ORDER BY weight DESC, origin, dest LIMIT 10;'
+cur = conn.cursor()
+cur.execute(query)
+df = pd.DataFrame(cur.fetchall(), columns=['Origin', 'Destination', 'Weight'])
+digraph = nx.DiGraph()
+# Add the nodes (airports)
+for tup in df.itertuples():
+    digraph.add_node(tup.Origin)
+    digraph.add_node(tup.Destination)
+# Add the weights (number of flights between nodes)
+for tup in df.itertuples():
+    digraph.add_weighted_edges_from([(tup.Origin, tup.Destination, tup.Weight)])
+digraph.nodes()
+df
+from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
-nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
-# difference between 2 plots above ???
+nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
+plt.legend('Top 10 networks 2006')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
+#
+# need to improve graphs
+#
 # answer: there is no significant difference between the years in pattern of travel
 #
 #
