@@ -28,6 +28,7 @@ cur = conn.cursor()
 # Checks the data is there
 cur.execute('SELECT COUNT(*) FROM flights;')
 cur.fetchall()
+# answer = 14 million flights
 # -------------------------------------------
 # QUERY 1
 # Average delay per month query
@@ -38,10 +39,10 @@ avg_delay_month = {k: v for k,v in avg_delay_month}
 plt.bar(avg_delay_month.keys(), avg_delay_month.values())
 x = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 plt.xticks(np.arange(1, 13, 1), x)
-plt.xlabel('Month Jan-Dec')
+plt.xlabel('Month')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Month (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png') # new 4 March needs Legends and Axes
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png')
 # answer is April
 #
 # Average delay per day of week
@@ -61,11 +62,12 @@ avg_delay_dow = cur.fetchall() #dow is day of week
 # Average delay per dow plot
 avg_delay_dow = {k: v for k,v in avg_delay_dow} # turns query result into dictionary
 plt.bar(avg_delay_dow.keys(), avg_delay_dow.values())
-plt.xticks(np.arange(1, 8, 1))
-plt.xlabel('Day Mon-Sun')
+y = ['Mon', 'Tue', 'Weds', 'Thu', 'Fri', 'Sat', 'Sun']
+plt.xticks(np.arange(1, 8, 1), y)
+plt.xlabel('Day')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Day (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/day.png') # new 4 March needs Legends and Axes
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/day.png')
 # answer is Tuesday
 #
 # Average delay per hour of day
@@ -91,7 +93,7 @@ plt.xticks(np.arange(0, 25, 1))
 plt.xlabel('Hour')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Hour (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hour.png') # new 4 March needs Legends and Axes
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hour.png')
 # answer is 0500-0600
 # Final answer is Tuesday in April at 0500-0600
 #
@@ -107,16 +109,18 @@ FROM temp_query
 WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
 GROUP BY AgeAtDep;
 ''')
-# Returns tailnumber, number of flights, and age at departure for outliers (-1, -2, 2005, 2006)
-#WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
-#SELECT
-	#temp_query.tailnum,
-	#COUNT(*),
-	#AgeAtDep
-#FROM temp_query
-#WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep IN (-2, -1, 2005, 2006)
-#GROUP BY AgeAtDep;
-# ----------- why these error years excluded? -----------
+# Justify outliers (-1, -2, 2005, 2006)
+# cur.execute('''
+# WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
+# SELECT
+	# temp_query.tailnum,
+	# COUNT(*),
+	# AgeAtDep
+# FROM temp_query
+# WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep IN (-2, -1, 2005, 2006)
+# GROUP BY AgeAtDep;
+# ''')
+# shows only 2 planes account for outliers. how show?
 avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 # 
@@ -132,9 +136,9 @@ plt.xticks(np.arange(0, 51, 1))
 plt.xlabel('Age at Departure (Years)')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Age of aircraft (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/age.png') # new 4 March needs Legends and Axes
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/age.png')
 # Line equation
-print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
+# print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
 # answer gradient +0.08, intercept +22.9
 # answer is yes, older planes suffer more delays
 # ie. each year older, adds 0.08 minute delay
