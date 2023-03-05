@@ -108,14 +108,14 @@ WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
 GROUP BY AgeAtDep;
 ''')
 # Returns tailnumber, number of flights, and age at departure for outliers (-1, -2, 2005, 2006)
-WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
-SELECT
-	temp_query.tailnum,
-	COUNT(*),
-	AgeAtDep
-FROM temp_query
-WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep IN (-2, -1, 2005, 2006)
-GROUP BY AgeAtDep;
+#WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
+#SELECT
+	#temp_query.tailnum,
+	#COUNT(*),
+	#AgeAtDep
+#FROM temp_query
+#WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep IN (-2, -1, 2005, 2006)
+#GROUP BY AgeAtDep;
 # ----------- why these error years excluded? -----------
 avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
@@ -125,7 +125,8 @@ x = np.array([float(key) for key in avg_delay_ageatdep.keys()])
 y = np.array([float(value) for value in avg_delay_ageatdep.values()])
 m, c = np.polyfit(x, y, deg=1)
 plt.figure(figsize=(20, 10))
-plt.plot(x, m * x + c, color='orange')
+line=plt.plot(x, m * x + c, color='orange')
+plt.legend(line, [f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}'])
 plt.bar(x, y)
 plt.xticks(np.arange(0, 51, 1))
 plt.xlabel('Age at Departure (Years)')
