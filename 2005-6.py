@@ -188,6 +188,7 @@ nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=Tru
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/06nodes.png')
 # comparing the two years results, no significant differences in node networks but very busy vis
 #
+#
 # now look at top 10 for 2005
 year = 2005
 query = f'SELECT origin, dest, count(*) weight FROM flights WHERE year={year} GROUP BY origin, dest ORDER BY weight DESC, origin, dest LIMIT 10;'
@@ -209,6 +210,8 @@ figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
 plt.legend('Top 10 networks 2005')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
+# top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
+#
 #
 # top 10 for 2006
 year = 2006
@@ -231,6 +234,7 @@ figure(figsize=(25, 17))
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
 plt.legend('Top 10 networks 2006')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
+# top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
 #
 # need to improve graphs
 #
