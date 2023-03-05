@@ -31,7 +31,7 @@ cur.fetchall()
 # -------------------------------------------
 # QUERY 1
 # Average delay per month query
-cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay IS NOT NULL GROUP BY month;')
+cur.execute('SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY month;')
 avg_delay_month = cur.fetchall()
 avg_delay_month = {k: v for k,v in avg_delay_month}
 # Average delay per month plot
@@ -52,7 +52,7 @@ cur.execute('''
         flights
     WHERE
         Cancelled=0
-        AND DepDelay IS NOT NULL
+        AND DepDelay >=0
         AND Month=4
     GROUP BY 
         DayOfWeek
@@ -61,6 +61,10 @@ avg_delay_dow = cur.fetchall() #dow is day of week
 # Average delay per dow plot
 avg_delay_dow = {k: v for k,v in avg_delay_dow} # turns query result into dictionary
 plt.bar(avg_delay_dow.keys(), avg_delay_dow.values())
+plt.xticks(np.arange(1, 8, 1))
+plt.xlabel('Day Mon-Sun')
+plt.ylabel('Minutes Delay')
+plt.title('Average Departure Delay per Day (minutes)')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/day.png') # new 4 March needs Legends and Axes
 # answer is Tuesday
 #
@@ -72,7 +76,7 @@ cur.execute('''
         flights
     WHERE
         Cancelled=0
-        AND DepDelay>=0
+        AND DepDelay >=0
         AND Month=4
         AND DayOfWeek=2
     GROUP BY 
@@ -83,6 +87,10 @@ avg_delay_hod = cur.fetchall() #hod is hour of day
 avg_delay_hod = {k: v for k,v in avg_delay_hod} # turns query result into dictionary
 plt.figure(figsize=(20, 10))
 plt.bar(avg_delay_hod.keys(), avg_delay_hod.values())
+plt.xticks(np.arange(0, 25, 1))
+plt.xlabel('Hour')
+plt.ylabel('Minutes Delay')
+plt.title('Average Departure Delay per Hour (minutes)')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hour.png') # new 4 March needs Legends and Axes
 # answer is 0500-0600
 # Final answer is Tuesday in April at 0500-0600
