@@ -105,21 +105,24 @@ SELECT
 	AVG(DepDelay)
 FROM temp_query
 WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006)
-# ----------- why these error years excluded? -----------
 GROUP BY AgeAtDep;
 ''')
+# ----------- why these error years excluded? -----------
 avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 # 
 # plot & linear line of fit
-plt.figure(figsize=(20, 10))
-plt.bar(avg_delay_ageatdep.keys(), avg_delay_ageatdep.values())
 x = np.array([float(key) for key in avg_delay_ageatdep.keys()])
 y = np.array([float(value) for value in avg_delay_ageatdep.values()])
 m, c = np.polyfit(x, y, deg=1)
 plt.figure(figsize=(20, 10))
 plt.plot(x, m * x + c, color='orange')
 plt.bar(x, y)
+plt.xticks(np.arange(0, 51, 1))
+plt.xlabel('Age at Departure (Years)')
+plt.ylabel('Minutes Delay')
+plt.title('Average Departure Delay per Age of aircraft (minutes)')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/age.png') # new 4 March needs Legends and Axes
 # Line equation
 print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
 # answer gradient +0.08, intercept +22.9
