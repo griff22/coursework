@@ -211,7 +211,7 @@ nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, f
 plt.legend('Top 10 networks 2005')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
 # top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
-#
+# DCA is Arlington, LGA is NY, ORD is Chicago, LAS is Las Vegas)
 #
 # top 10 for 2006
 year = 2006
@@ -235,10 +235,11 @@ nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, f
 plt.legend('Top 10 networks 2006')
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
 # top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
+# HNL is Honolulu and OGG is Kahului??
 #
 # need to improve graphs
 #
-# answer: there is no significant difference between the years in pattern of travel
+# answer: there is no significant difference between the years in pattern of travel although Hawaii becomes more popular in 2006 and Arlington less popular?
 #
 #
 # -------------------------
