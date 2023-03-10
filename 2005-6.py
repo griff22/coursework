@@ -253,18 +253,23 @@ df = pd.DataFrame(cur.fetchall(), columns=['count_origin', 'avg_delay_dest', 'ai
 # plot & linefit
 x, y = df['avg_delay_dest'], df['avg_delay_origin']
 m, c = np.polyfit(x, y, deg=1)
-line = m * x + c
+# line = m * x + c
 print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
 # answer is intercept 13.5, gradient 0.34
 fig, ax = plt.subplots(figsize=(10, 10))
-plt.xlim([0, 100])
-plt.ylim([0, 100])
+plt.xlim([0, 80])
+plt.ylim([0, 80])
 ax.scatter(df['avg_delay_dest'], df['avg_delay_origin'])
-ax.plot(line)
-plt.xlabel("to")
-plt.ylabel("from")
+line=plt.plot(x, m * x + c, color='orange')
+plt.legend(line, [f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}'])
+# ax.plot(line)
+plt.xlabel("Departure Delay To (Mins)")
+plt.ylabel("Departure Delay From (Mins")
 for i, txt in enumerate(df['airport']):
     ax.annotate(txt, (df['avg_delay_dest'][i], df['avg_delay_origin'][i]))
+# what is this last line doing?
+plt.title('Cascading Delays per Airport (minutes)')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/cascade.png')
 # answer is yes, there are cascading failures with 34% of the original delay cascading into its next flight and 66% of the delay caught up.
 #
 #
