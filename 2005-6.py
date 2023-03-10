@@ -275,4 +275,15 @@ plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/cascade.png')
 #
 # -----------------------
 # QUERY 5. MODELLING
-#
+from sklearn.datasets import fetch_openml
+from sklearn.metrics import plot_roc_curve
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+# X_initial, y = flights.db
+# features = {'month', 'day', 'time', 'age', 'cascade'}
+# X = X_initial[features].copy()
