@@ -209,7 +209,7 @@ df
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 plt.title('Top networks 2005', fontsize=30)
-# plt.legend()
+# plt.legend(airports)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
 # top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
