@@ -208,8 +208,9 @@ digraph.nodes()
 df
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
-nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
-plt.legend('Top 10 networks 2005')
+plt.title('Top networks 2005', fontsize=30)
+# plt.legend()
+nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
 # top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
 # DCA is Arlington, LGA is NY, ORD is Chicago, LAS is Las Vegas)
@@ -232,8 +233,9 @@ digraph.nodes()
 df
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
+plt.title('Top networks 2006', fontsize=30)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
-plt.legend('Top 10 networks 2006')
+# plt.legend()
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
 # top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
 # HNL is Honolulu and OGG is Kahului??
