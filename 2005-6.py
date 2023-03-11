@@ -283,10 +283,13 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
+#
 # X features and y response
 # X_initial, y = DepDelay
 # features = [Month, DayOfWeek, DepTime, AgeAtDep, avg_delay_origin]
 # X = X_initial[features].copy()
+#
+# Pre-processing pipelines
 # numerical_features = [AgeAtDep, avg_delay_origin]
 # numerical_transformer = Pipeline(steps=[
 # ('imputer', SimpleImputer()),
@@ -299,7 +302,16 @@ from sklearn.compose import ColumnTransformer
 # transformers=[
 # ('numerical', numerical_transformer, numerical_features)
 # ('Categorical', categorical_transformer, categorical_features)])
+#
 # Logistic Regression
 # pipe_lr = Pipeline(steps=[('data_transformer', data_transformer),
 # (pipe_lr', LogisticRegression(max_iter=10000))])
 # X_train, X_test, y-train, y_test = train_test_split(X_initial, y, test_size=0.5, random_state=1)
+# param_grid = {
+# 'data_transformer__numerical__imputer__startegy': ['mean', 'median'],
+# 'data_transformer__categorical__imputer__strategy': ['constant', 'most frequent']
+#}
+# grid_lr = GridSearchCV(pipe_lr, param_grid=param_grid)
+# grid_lr.fit(X_train, y_train);
+#
+# Gradient Boosting & compare ROC curves...
