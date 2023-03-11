@@ -234,7 +234,7 @@ df
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 plt.title('Top networks 2006', fontsize=30)
-nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=7)
+nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
 # plt.legend()
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
 # top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
