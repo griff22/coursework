@@ -275,7 +275,6 @@ plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/cascade.png')
 #
 # -----------------------
 # QUERY 5. MODELLING
-from sklearn.datasets import fetch_openml
 from sklearn.metrics import plot_roc_curve
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
@@ -284,6 +283,23 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-# X_initial, y = flights.db
-# features = {'month', 'day', 'time', 'age', 'cascade'}
+# X features and y response
+# X_initial, y = DepDelay
+# features = [Month, DayOfWeek, DepTime, AgeAtDep, avg_delay_origin]
 # X = X_initial[features].copy()
+# numerical_features = [AgeAtDep, avg_delay_origin]
+# numerical_transformer = Pipeline(steps=[
+# ('imputer', SimpleImputer()),
+# ('scaler', StandardScaler())])
+# categorical_features = [Month, DayOfWeek, DepTime]
+# categorical_transformer = Pipeline(steps=[
+# ('imputer', SimpleImputer()),
+# ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+# data_transformer = ColumnTransformer(
+# transformers=[
+# ('numerical', numerical_transformer, numerical_features)
+# ('Categorical', categorical_transformer, categorical_features)])
+# Logistic Regression
+# pipe_lr = Pipeline(steps=[('data_transformer', data_transformer),
+# (pipe_lr', LogisticRegression(max_iter=10000))])
+# X_train, X_test, y-train, y_test = train_test_split(X_initial, y, test_size=0.5, random_state=1)
