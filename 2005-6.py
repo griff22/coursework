@@ -164,8 +164,8 @@ for tup in df.itertuples():
     digraph.add_weighted_edges_from([(tup.Origin, tup.Destination, tup.Weight)])
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
-nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
 plt.title(label='2005 all airports', fontsize=30)
+nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/05nodes.png')
 #
 # 2006
@@ -184,8 +184,8 @@ for tup in df.itertuples():
     digraph.add_weighted_edges_from([(tup.Origin, tup.Destination, tup.Weight)])
 from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
+plt.title(label='2006 all airports\nLittle visible change from 2005', fontsize=30)
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
-plt.title(label='2006 all airports', fontsize=30)
 plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/06nodes.png')
 # comparing the two years results, no significant differences in node networks but very busy vis
 #
