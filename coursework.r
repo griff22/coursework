@@ -15,8 +15,5 @@ dbListFields(conn, 'Flights')
 # -------------------------------------------
 # QUERY 1
 # Average delay per month query
-q1m <- dbGetQuery(conn, 
-                 'SELECT month, AVG(DepDelay) 
-                 FROM flights 
-                 WHERE Cancelled=0 AND DepDelay >=0 
-                 GROUP BY month')
+q1m <- dbGetQuery(conn, 'SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY month')
+# Average delay per month plot
