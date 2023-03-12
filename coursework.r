@@ -9,6 +9,7 @@ install.packages('ggplot2')
 library('ggplot2')
 #
 # connect to DB already set up
+setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
 conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
 # check all there
 dbListTables(conn)
