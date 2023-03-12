@@ -5,6 +5,8 @@ install.packages('RSQLite')
 library('RSQLite')
 install.packages('DBI')
 library('DBI')
+install.packages('ggplot2')
+library('ggplot2')
 #
 # connect to DB already set up
 conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
