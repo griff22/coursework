@@ -12,3 +12,6 @@ conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
 dbListTables(conn)
 dbListFields(conn, 'Flights')
 # how count?
+# -------------------------------------------
+# QUERY 1
+# Average delay per month query
