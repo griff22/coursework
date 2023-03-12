@@ -23,3 +23,8 @@ month <- dbGetQuery(conn, 'SELECT month, AVG(DepDelay) FROM flights WHERE Cancel
 # answer is April
 #
 # Average delay per month plot?
+#
+# Average delay per day of week
+day <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 GROUP BY DayOfWeek')
+# answer is Tuesday
+# plot?
