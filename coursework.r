@@ -41,6 +41,6 @@ age <- dbGetQuery(conn, WITH temp_query AS (SELECT (flights."Year" - "plane-data
 # not working?
 # Justify outliers (-1, -2, 2005, 2006)
 # shows only 2 planes account for outliers. how show?
-avg_delay_ageatdep = cur.fetchall()
-avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
+# avg_delay_ageatdep = cur.fetchall()
+# avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 # 
