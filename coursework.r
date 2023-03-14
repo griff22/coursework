@@ -37,7 +37,7 @@ bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE 
 #
 # plot ??
 avg.dep.delay.day <- c(bestday$'AVG(DepDelay)')
-day <- c(bestday$DayOfWeek)
+day <- c(bestday$'DayOfWeek')
 barplot(avg.dep.delay.day, names.arg = avg.dep.delay.day$DayOfWeek, main='Av Dep Delay per Day during April 05 & 06', xlab='Day', ylab='Delay (mins)')
 #
 # Average delay per hour of day
