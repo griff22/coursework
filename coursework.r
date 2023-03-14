@@ -13,10 +13,10 @@ setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
 conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
 #
 # check all there
-dbGetQuery(conn, 'SELECT * FROM flights')
+dbReadTable(conn, 'flights')
 # answer 14.3m flights
 dbListTables(conn)
-dbListFields(conn, 'Flights')
+# all there "airports", "carriers", "flights", "plane-data", "variable-descriptions"
 # 
 # -------------------------------------------
 # QUERY 1
