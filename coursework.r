@@ -13,10 +13,8 @@ setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
 conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
 #
 # check all there
-dbReadTable(conn, 'flights')
-# answer 14.3m flights
-dbListTables(conn)
-# all there "airports", "carriers", "flights", "plane-data", "variable-descriptions"
+dbReadTable(conn, 'flights') # answer 14.3m flights
+dbListTables(conn) # all there "airports", "carriers", "flights", "plane-data", "variable-descriptions"
 # 
 # -------------------------------------------
 # QUERY 1. Best time to travel with minimum delays.
@@ -25,7 +23,7 @@ dbListTables(conn)
 bestmonth <- dbGetQuery(conn, 'SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY month')
 class(bestmonth) # answer is data frame
 str(bestmonth) # answer is $ Month        : int  1 2 3 4 5 6 7 8 9 10 ...$ AVG(DepDelay): num  21.2 19.9 20.9 17.9 18.4 ...
-bestmonth <- transform(bestmonth, MonthAbb = month.abb[Month])
+# bestmonth <- transform(bestmonth, MonthAbb = month.abb[Month])
 # answer is April
 #
 # Average delay per month plot?
