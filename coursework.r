@@ -26,7 +26,10 @@ str(bestmonth) # answer is $ Month        : int  1 2 3 4 5 6 7 8 9 10 ...$ AVG(D
 # bestmonth <- transform(bestmonth, MonthAbb = month.abb[Month])
 # answer is April
 #
-# plot?
+# plot
+avg.dep.delay <- c(bestmonth$`AVG(DepDelay)`)
+month <- c(bestmonth$Month)
+barplot(avg.dep.delay, names.arg = bestmonth$Month, main='Av Dep Delay per Month', xlab='Month', ylab='Delay (mins)')
 #
 # Average delay per day of week
 bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 GROUP BY DayOfWeek')
