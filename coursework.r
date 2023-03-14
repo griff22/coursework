@@ -19,9 +19,10 @@ dbListTables(conn)
 # all there "airports", "carriers", "flights", "plane-data", "variable-descriptions"
 # 
 # -------------------------------------------
-# QUERY 1
+# QUERY 1. Best time to travel with minimum delays.
 # Average delay per month query
 month <- dbGetQuery(conn, 'SELECT month, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY month')
+class(month) # answer is data frame
 # avg_delay_month = dbFetch((), n=-1) not working
 # answer is April
 #
