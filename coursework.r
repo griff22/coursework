@@ -29,13 +29,16 @@ str(bestmonth) # answer is $ Month        : int  1 2 3 4 5 6 7 8 9 10 ...$ AVG(D
 # plot
 avg.dep.delay <- c(bestmonth$`AVG(DepDelay)`)
 month <- c(bestmonth$Month)
-barplot(avg.dep.delay, names.arg = bestmonth$Month, main='Av Dep Delay per Month', xlab='Month', ylab='Delay (mins)')
+barplot(avg.dep.delay, names.arg = month.abb, main='Av Dep Delay per Month', xlab='Month', ylab='Delay (mins)')
 #
 # Average delay per day of week
 bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 GROUP BY DayOfWeek')
 # answer is Tuesday
 #
-# plot?
+# plot ??
+avg.dep.delay.day <- c(bestday$'AVG(DepDelay)')
+day <- c(bestday$DayOfWeek)
+barplot(avg.dep.delay.day, names.arg = avg.dep.delay.day$DayOfWeek, main='Av Dep Delay per Day during April 05 & 06', xlab='Day', ylab='Delay (mins)')
 #
 # Average delay per hour of day
 besthour <- dbGetQuery(conn, 'SELECT SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3), AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)')
