@@ -40,10 +40,6 @@ bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE 
 # plot
 avg.dep.delay.day <- c(bestday$`AVG(DepDelay)`)
 day <- c(bestday$DayOfWeek)
-# day.text=lubridate::wday(day, week_start = 1)
-# png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/DayR.png', height=1000, width=1000)
-# barplot(avg.dep.delay.day, names.arg=day.text ,main = 'Av Dep Delay per Day in April 05 & 06', xlab='Day', ylab ='Delay (mins)')
-# dev.off()
 png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/DayR.png', height=1000, width=1000)
 barplot(avg.dep.delay.day, names.arg = bestday$DayOfWeek, main = 'Av Dep Delay per Day in April 05 & 06', xlab='Day', ylab ='Delay (mins)')
 dev.off()
