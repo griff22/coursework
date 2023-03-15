@@ -9,6 +9,8 @@ install.packages('ggplot2')
 library('ggplot2')
 install.packages("lubridate")
 library(lubridate)
+install.packages("dbplyr")
+library(dbplyr)
 #
 # connect to DB already set up
 setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
@@ -40,8 +42,9 @@ bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE 
 # plot
 avg.dep.delay.day <- c(bestday$`AVG(DepDelay)`)
 day <- c(bestday$DayOfWeek)
+day <- day %>% recode(`1`= "Mon", `2`="Tue", `3`= "Wed", '4'="Thu", '5'="Fri", '6'="Sat", '7'="Sun")
 png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/DayR.png', height=1000, width=1000)
-barplot(avg.dep.delay.day, names.arg = bestday$DayOfWeek, main = 'Av Dep Delay per Day in April 05 & 06', xlab='Day', ylab ='Delay (mins)')
+barplot(avg.dep.delay.day, names.arg = day, main = 'Av Dep Delay per Day in April 05 & 06', xlab='Day', ylab ='Delay (mins)')
 dev.off()
 #
 # Average delay per hour of day
