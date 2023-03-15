@@ -25,11 +25,12 @@ class(bestmonth) # answer is data frame
 str(bestmonth) # answer is $ Month        : int  1 2 3 4 5 6 7 8 9 10 ...$ AVG(DepDelay): num  21.2 19.9 20.9 17.9 18.4 ...
 # bestmonth <- transform(bestmonth, MonthAbb = month.abb[Month])
 # answer is April
-#
 # plot
 avg.dep.delay <- c(bestmonth$`AVG(DepDelay)`)
 month <- c(bestmonth$Month)
+png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/MonthR.png', width=600)
 barplot(avg.dep.delay, names.arg = month.abb, main='Av Dep Delay per Month', xlab='Month', ylab='Delay (mins)')
+dev.off()
 #
 # Average delay per day of week
 bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 GROUP BY DayOfWeek')
