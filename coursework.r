@@ -7,6 +7,8 @@ install.packages('DBI')
 library('DBI')
 install.packages('ggplot2')
 library('ggplot2')
+install.packages("lubridate")
+library(lubridate)
 #
 # connect to DB already set up
 setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
