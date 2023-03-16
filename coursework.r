@@ -48,7 +48,8 @@ barplot(avg.dep.delay.day, names.arg = day, main = 'Av Dep Delay per Day in Apri
 dev.off()
 #
 # Average delay per hour of day
-besthour <- dbGetQuery(conn, 'SELECT SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3), AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)')
+# besthour <- dbGetQuery(conn, 'SELECT SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3), AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY SUBSTRING(SUBSTRING('00000' || DepTime, -6, 6), 0, 3)')
+# besthour <- dbGetQuery(conn, 'SELECT DepTime, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY DepTime')
 # doesn't like it?
 #
 # -------------------------------------------
