@@ -52,8 +52,13 @@ dev.off()
 # besthour <- dbGetQuery(conn, 'SELECT DepTime, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY DepTime')
 # categories <- c('1-59', '100-159', '200-259', '300-359', '400-459', '500-559', '600-659', '700-759', '800-859', '900-959', '1000-1059', '1100-1159', '1200-1259', '1300-1359', '1400-1459', '1500-1559', '1600-1659', '1700-1759', '1800-1859', '1900-1959', '2000-2059', '2100-2159', '2200-2259', '2300-2359')
 # hours <-mutate(besthour, clock=DepTime/100)
-# besthour_cut <-cut(hours$clock, seq(0,25,1))
-#
+# besthour_cats <-cut(hours$clock, seq(0,25,1))
+# hours_range <- hours %>%
+#  mutate(ranges = cut(clock, seq(0, 24, 1))) %>% 
+#  group_by(ranges) %>% 
+#  summarize(means=mean(avg(depdelay))) %>%
+#  as.data.frame
+# aggregate(hours_range, by list(hours_range$ranges))
 doesn't like it?
 #
 # -------------------------------------------
