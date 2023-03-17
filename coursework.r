@@ -49,15 +49,15 @@ dev.off()
 #
 # Average delay per hour of day
 besthour <- dbGetQuery(conn, 'SELECT DepTime, AVG(DepDelay) FROM flights WHERE Cancelled=0 AND DepDelay >=0 AND Month=4 AND DayOfWeek=2 GROUP BY DepTime')
-besthour1 <- besthour[-which(besthour$DepTime>2400),]
+besthour1 <- besthour[-which(besthour$DepTime>2400),] # ignore 2 flights of dirty data showing time as 2400+. 
 besthour1$DepTime_perhour <- floor(besthour1$DepTime/100)+1
 mean_dep <- vector()
 for(i in 1:24){
   mean_dep[i] <- mean(besthour1$`AVG(DepDelay)`[which(besthour1$DepTime_perhour==i)])
 }
-which.min(mean_dep)
+which.min(mean_dep) $answer is hour 6 which is 0500-0600
 barplot(mean_dep, horiz = TRUE, names.arg=1:24, las = 2, cex.names = 0.7, col = "lightblue", main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
-
+#
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
