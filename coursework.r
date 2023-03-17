@@ -57,6 +57,13 @@ for(i in 1:24){
   mean_dep[i] <- mean(besthour1$`AVG(DepDelay)`[which(besthour1$DepTime_perhour==i)])
 }
 which.min(mean_dep)
+barplot(mean_dep, horiz = TRUE, 
+        names.arg=1:24, 
+        las = 2,
+        cex.names = 0.7, col = "lightblue",
+        main = "", 
+        xlab = "", 
+        ylab = "")
 # categories <- c('1-59', '100-159', '200-259', '300-359', '400-459', '500-559', '600-659', '700-759', '800-859', '900-959', '1000-1059', '1100-1159', '1200-1259', '1300-1359', '1400-1459', '1500-1559', '1600-1659', '1700-1759', '1800-1859', '1900-1959', '2000-2059', '2100-2159', '2200-2259', '2300-2359')
 # hours <-mutate(besthour, clock=DepTime/100)
 # besthour_cats <-cut(hours$clock, seq(0,25,1))
