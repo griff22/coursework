@@ -42,7 +42,7 @@ plt.xticks(np.arange(1, 13, 1), x)
 plt.xlabel('Month')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Month (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/month.png')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/monthPY.png')
 # answer is April
 #
 # Average delay per day of week
@@ -67,7 +67,7 @@ plt.xticks(np.arange(1, 8, 1), y)
 plt.xlabel('Day')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay in April 05 & 06 (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/day.png')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dayPY.png')
 # answer is Tuesday
 #
 # Average delay per hour of day
@@ -93,7 +93,7 @@ plt.xticks(np.arange(0, 25, 1))
 plt.xlabel('Hour')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay on Tuesdays in April 05 & 06 (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hour.png')
+plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hourPY.png')
 # answer is 0500-0600
 # Final answer is Tuesday in April at 0500-0600
 #
