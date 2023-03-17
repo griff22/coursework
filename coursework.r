@@ -62,6 +62,12 @@ dev.off()
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
+# need to join flights with plane-data on tail number
+# calculate ageatdep = flights.year - plane-data.year
+# AVG(DepDelay) per Age
+# ignore dirty data
+# plot best fit & give line equation
+#
 # original python. age <- dbGetQuery(conn, WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
 # python 'SELECT AgeAtDep, AVG(DepDelay) FROM temp_query WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006) GROUP BY AgeAtDep')
 # mod. age <- dbGetQuery(conn, 'SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year != 'NA')'
