@@ -55,9 +55,10 @@ mean_dep <- vector()
 for(i in 1:24){
   mean_dep[i] <- mean(besthour1$`AVG(DepDelay)`[which(besthour1$DepTime_perhour==i)])
 }
-which.min(mean_dep) $answer is hour 6 which is 0500-0600
-barplot(mean_dep, horiz = TRUE, names.arg=1:24, las = 2, cex.names = 0.7, col = "lightblue", main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
-#
+which.min(mean_dep) $answer is hour 6 which is 0500-0600 as no flights 0400-0500
+png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/HourR.png', height=1000, width=1000)
+barplot(mean_dep, names.arg=1:24, cex.names = 0.7, col = "lightblue", main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
+dev.off()
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
