@@ -295,7 +295,7 @@ from sklearn.metrics import mean_absolute_error, median_absolute_error, explaine
 # from sklearn.compose import ColumnTransformer
 #
 # initialise dataframes
-df = pd.concat([pd.read_csv("./dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("./dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
+df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
 # df_model = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
 # 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excluded as they're strings.
 # 
