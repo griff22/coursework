@@ -1,4 +1,4 @@
-# preparation
+# preparation queries 1 to 4
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -278,7 +278,7 @@ plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/cascade.png')
 #
 # -----------------------
 # QUERY 5. MODELLING
-# setup
+# setup. needed bigger computer!
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
