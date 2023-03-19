@@ -299,10 +299,9 @@ df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse
 df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
 df = pd.concat([df_05, df_06], ignore_index=True)
 df_model = df[
-    # ['Year', 'Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'CRSElapsedTime', 'Distance']
-    ['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']
+	['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']
 ]
-# 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excuded as they're strings.
+# 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excuded as they're strings.
 # 
 # lb = LabelEncoder() # TODO
 # 
