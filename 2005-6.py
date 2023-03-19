@@ -278,23 +278,58 @@ plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/cascade.png')
 #
 # -----------------------
 # QUERY 5. MODELLING
-from sklearn.metrics import plot_roc_curve
-from sklearn.model_selection import train_test_split, GridSearchCV
+# setup
+import sklearn
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.pipeline import Pipeline
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
+from sklearn.metrics import mean_absolute_error
+# from sklearn.metrics import plot_roc_curve
+# from sklearn.model_selection import GridSearchCV
+# from sklearn.ensemble import GradientBoostingClassifier
+# from sklearn.pipeline import Pipeline
+# from sklearn.preprocessing import StandardScaler, OneHotEncoder
+# from sklearn.compose import ColumnTransformer
 #
-# X features and y response
-# X_initial, y = DepDelay
-# features = [Month, DayOfWeek, DepTime, AgeAtDep, avg_delay_origin]
-# X = X_initial[features].copy()
+# initialise dataframes
+df_05 = pd.read_csv("./dataverse/2005.csv.bz2", compression="bz2")
+df_06 = pd.read_csv("./dataverse/2006.csv.bz2", compression="bz2")
+df = pd.concat([df_05, df_06], ignore_index=True)
+df_model = df[
+    # ['Year', 'Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'CRSElapsedTime', 'Distance']
+    ['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']
+]
+# 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excuded as they're strings.
+# 
+# lb = LabelEncoder() # TODO
+# 
+# Imputer
+X = SimpleImputer().fit_transform(df_model)
+y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 #
+# Train-test split
+# y = df['DepDelay']
+# X = df_model
+# X_train, X_test, y_train, y_test = train_test_split(X.index, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# X_train = X.iloc[X_train] # return dataframe train
+# X_test = X.iloc[X_test] # return dataframe train
+#
+# Train linear regression model
+reg = LinearRegression().fit(X_train, y_train)
+#
+# Error
+mean_absolute_error(reg.predict(X_test), y_test)
+#
+#
+#
+# ORIGINAL
 # Pre-processing pipelines
 # numerical_features = [AgeAtDep, avg_delay_origin]
-# numerical_transformer = Pipeline(steps=[
+# = Pipeline(steps=[
 # ('imputer', SimpleImputer()),
 # ('scaler', StandardScaler())])
 # categorical_features = [Month, DayOfWeek, DepTime]
