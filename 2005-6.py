@@ -295,8 +295,8 @@ from sklearn.metrics import mean_absolute_error
 # from sklearn.compose import ColumnTransformer
 #
 # initialise dataframes
-df_05 = pd.read_csv("./dataverse/2005.csv.bz2", compression="bz2")
-df_06 = pd.read_csv("./dataverse/2006.csv.bz2", compression="bz2")
+df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
+df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
 df = pd.concat([df_05, df_06], ignore_index=True)
 df_model = df[
     # ['Year', 'Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'CRSElapsedTime', 'Distance']
