@@ -301,7 +301,7 @@ df = pd.concat([df_05, df_06], ignore_index=True)
 df_model = df[
 	['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']
 ]
-# 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excuded as they're strings.
+# 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excluded as they're strings.
 # 
 # lb = LabelEncoder() # TODO
 # 
