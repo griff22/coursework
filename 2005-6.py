@@ -286,7 +286,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error, median_absolute_error, explained_variance_score, r2_score
 # from sklearn.metrics import plot_roc_curve
 # from sklearn.model_selection import GridSearchCV
 # from sklearn.ensemble import GradientBoostingClassifier
@@ -295,25 +295,24 @@ from sklearn.metrics import mean_absolute_error
 # from sklearn.compose import ColumnTransformer
 #
 # initialise dataframes
-df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
-df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
-df = pd.concat([df_05, df_06], ignore_index=True)
-df_model = df[
-	['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']
-]
+df = pd.concat([pd.read_csv("./dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("./dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
+# df_model = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
 # 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excluded as they're strings.
 # 
 # lb = LabelEncoder() # TODO
 # 
 # Imputer
-X = SimpleImputer().fit_transform(df_model)
+X = SimpleImputer().fit_transform(df[['Year', 'Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'CRSElapsedTime', 'Distance']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+# X = SimpleImputer().fit_transform(df_model)
+# y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 #
 # Train-test split
 # y = df['DepDelay']
 # X = df_model
 # X_train, X_test, y_train, y_test = train_test_split(X.index, y, test_size=0.2)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # X_train = X.iloc[X_train] # return dataframe train
 # X_test = X.iloc[X_test] # return dataframe train
 #
@@ -321,7 +320,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 reg = LinearRegression().fit(X_train, y_train)
 #
 # Error
-mean_absolute_error(reg.predict(X_test), y_test)
+median_absolute_error(y_test, reg.predict(X_test))
+# mean_absolute_error(reg.predict(X_test), y_test)
 #
 #
 #
