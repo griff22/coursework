@@ -101,28 +101,7 @@ joined_tail <- merge(by_tail, p_final, by.x="TailNum", by.y="tailnum")
 png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 dev.off()
-
-
-
-
-
-
-
-
-
-
-# need to join flights with plane-data on tail number
-# calculate ageatdep = flights.year - plane-data.year
-# AVG(DepDelay) per Age
-# ignore dirty data
+# abline(lm(joined_tail$av_age ~ joined_tail$`AVG(DepDelay)`, col='orange')
 # plot best fit & give line equation
 #
-# original python. age <- dbGetQuery(conn, WITH temp_query AS (SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year <> 'None')
-# python 'SELECT AgeAtDep, AVG(DepDelay) FROM temp_query WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep NOT IN (-2, -1, 2005, 2006) GROUP BY AgeAtDep')
-# mod. age <- dbGetQuery(conn, 'SELECT (flights."Year" - "plane-data".Year) AgeAtDep, * FROM flights JOIN "plane-data" ON flights.TailNum = "plane-data".TailNum WHERE "plane-data".Year != 'NA')'
-# not working?
-# Justify outliers (-1, -2, 2005, 2006)
-# shows only 2 planes account for outliers.
-# avg_delay_ageatdep = cur.fetchall()
-# avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 # 
