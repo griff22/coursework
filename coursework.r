@@ -62,6 +62,40 @@ dev.off()
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
+age_2005 <- 2005-as.numeric(plane.data$year)
+age_2006 <- 2006-as.numeric(plane.data$year)
+
+Flights_2005a <- Flights_2005[which(Flights_2005$)
+avg_dep_delay_tailnum <-aggregate(Flights_2005$DepDelay, list(Flights_2005$TailNum), mean)
+
+flights05_tailnum <- intersect(plane.data$tailnum, unique(Flights_2005$TailNum))
+tailnum_2005_planedata <- plane.data$tailnum %in% flights05_tailnum
+tailnum_2005_flightdata <- avg_dep_delay_tailnum$Group.1 %in% flights05_tailnum
+age_2005_depdelay <- data.frame(tailnum=flights05_tailnum, 
+                                age=age_2005[tailnum_2005_planedata], 
+                                avgddelay= avg_dep_delay_tailnum$x[tailnum_2005_flightdata])
+age_2005_depdelay1 <- age_2005_depdelay[complete.cases(age_2005_depdelay), ]
+age_2005_depdelay2 <- age_2005_depdelay1[which(age_2005_depdelay1$age >=0),]
+age_2005_depdelay3 <- age_2005_depdelay2[-which(age_2005_depdelay2$age ==2005),]
+
+age_05_avg_ddelay <- aggregate(age_2005_depdelay3$avgddelay, list(age_2005_depdelay3$age), mean)
+age_05_avg_ddelay1 <- data.frame(age=as.factor(age_05_avg_ddelay$Group.1), avgddelay=age_05_avg_ddelay$x)
+age_05_avg_ddelay2 <- data.frame(avgddelay=age_05_avg_ddelay$x)
+rownames(age_05_avg_ddelay2) <- age_05_avg_ddelay1$age
+
+barplot(age_05_avg_ddelay2$avgddelay) 
+
+
+
+
+
+
+
+
+
+
+
+
 # need to join flights with plane-data on tail number
 # calculate ageatdep = flights.year - plane-data.year
 # AVG(DepDelay) per Age
