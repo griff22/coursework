@@ -97,9 +97,10 @@ joined_tail <- merge(by_tail, p_final, by.x="TailNum", by.y="tailnum")
 # rownames(age_05_avg_ddelay2) <- age_05_avg_ddelay1$age
 #
 # plots
-barplot(age_05_avg_ddelay2$avgddelay) 
-
-
+# barplot(age_05_avg_ddelay2$avgddelay) 
+png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/AgeR.png', height=1000, width=1000)
+plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
+dev.off()
 
 
 
