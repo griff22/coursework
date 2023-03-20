@@ -62,10 +62,17 @@ dev.off()
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
-age_2005 <- 2005-as.numeric(plane.data$year)
-age_2006 <- 2006-as.numeric(plane.data$year)
-
-Flights_2005a <- Flights_2005[which(Flights_2005$)
+# setup
+p <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\plane-data.csv")
+f05 <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\2005.csv")
+f06 <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\2006.csv")
+#
+# age of planes
+age_2005 <- 2005-as.numeric(p$year)
+p2 <- cbind(p, age_2005)
+age_2006 <- 2006-as.numeric(p$year)
+p3 <- cbind(p2, age_2006)
+#
 avg_dep_delay_tailnum <-aggregate(Flights_2005$DepDelay, list(Flights_2005$TailNum), mean)
 
 flights05_tailnum <- intersect(plane.data$tailnum, unique(Flights_2005$TailNum))
