@@ -101,8 +101,10 @@ joined_tail <- merge(by_tail, p_final, by.x="TailNum", by.y="tailnum")
 png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 abline(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age), col='orange')
+summary(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age))$coefficients
+# answer. intercept 24.2 minutes, gradient = 0.05 minutes/ year.
+text(x=40, y=70, "y = mx + c is y mins=0.05x + 24.2", col="red")
 dev.off()
-# abline(lm(joined_tail$av_age ~ joined_tail$`AVG(DepDelay)`), col='orange')
-# plot best fit & give line equation
 #
-# 
+# ----------------------------------------------------------
+# QUERY 3: How do number of people flying between destinations change over time
