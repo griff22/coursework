@@ -108,3 +108,4 @@ dev.off()
 #
 # ----------------------------------------------------------
 # QUERY 3: How do number of people flying between destinations change over time
+# use igraph?
