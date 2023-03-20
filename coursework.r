@@ -62,6 +62,7 @@ dev.off()
 #
 # -------------------------------------------
 # QUERY 2. Do older plane suffer more delays?
+#
 # setup
 p <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\plane-data.csv")
 f05 <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\2005.csv")
@@ -72,10 +73,15 @@ age_2005 <- 2005-as.numeric(p$year)
 p2 <- cbind(p, age_2005)
 age_2006 <- 2006-as.numeric(p$year)
 p3 <- cbind(p2, age_2006)
-p_clean <- p3 %>% drop_na()
-p_clean2 <- subset(p_clean, !(p_clean$age_2005 %in% c(-3, -2, -1, 2005, 2006)))
+av_age <- 2005.5-as.numeric(p$year)
+p4 <- cbind(p3, av_age)
+p_clean <- p4 %>% drop_na()
+p_final <- subset(p_clean, !(p_clean$age_2005 %in% c(-3, -2, -1, 2005, 2006)))
 #
-avg_dep_delay_tailnum <-aggregate(Flights_2005$DepDelay, list(Flights_2005$TailNum), mean)
+# dep delay per tail number
+by_tail <- dbGetQuery(conn, 'SELECT TailNum, AVG(DepDelay) from flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY TailNum')
+
+# avg_dep_delay_tailnum <-aggregate(Flights_2005$DepDelay, list(Flights_2005$TailNum), mean)
 
 flights05_tailnum <- intersect(plane.data$tailnum, unique(Flights_2005$TailNum))
 tailnum_2005_planedata <- plane.data$tailnum %in% flights05_tailnum
