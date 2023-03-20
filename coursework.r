@@ -72,6 +72,8 @@ age_2005 <- 2005-as.numeric(p$year)
 p2 <- cbind(p, age_2005)
 age_2006 <- 2006-as.numeric(p$year)
 p3 <- cbind(p2, age_2006)
+p_clean <- p3 %>% drop_na()
+p_clean2 <- subset(p_clean, !(p_clean$age_2005 %in% c(-3, -2, -1, 2005, 2006)))
 #
 avg_dep_delay_tailnum <-aggregate(Flights_2005$DepDelay, list(Flights_2005$TailNum), mean)
 
