@@ -115,8 +115,9 @@ library(igraph)
 if(!require(igraphdata)) install.packages("igraphdata") 
 library(igraphdata)
 #
-# year 2005 first 50,000 flights anymore & processing time is too long
-f05_sub <- f05[1:50000,]
+# year 2005 random 1,000 flights anymore & graph too crowded
+f05_sub <- f05[sample(1:nrow(f05), 1000),]
+# f05_sub <- f05[1:50000,]
 destinations <- union(unique(f05_sub$Dest), unique(f05_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
 rownames(mat) <- colnames(mat) <- destinations
@@ -137,12 +138,12 @@ V(network)$label.color <- membership(network_groups05)
 V(network)$shape <- "none"
 E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network05R.png', height=1000, width=1000)
-plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 first 50,000 flights")
+plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 random 1,000 flights")
 dev.off()
 #
-# year 2006 first 50,000 flights anymore & processing time is too long
-# memory issues when running after 2005 network?????? how resolve?
-f06_sub <- f06[1:50000,]
+# year 2006 random 1,000 flights anymore & graph too crowded
+f06_sub <- f06[sample(1:nrow(f05), 1000),]
+# f06_sub <- f06[1:50000,]
 destinations <- union(unique(f06_sub$Dest), unique(f06_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
 rownames(mat) <- colnames(mat) <- destinations
@@ -163,9 +164,9 @@ V(network)$label.color <- membership(network_groups06)
 V(network)$shape <- "none"
 E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network06R.png', height=1000, width=1000)
-plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 first 50,000 flights")
+plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 random 1,000 flights")
 dev.off()
-# conclusion from Python work as memory issues using R igraph
+# conclusion from Python work as memory & plotting issues using R igraph
 # conclusion: no major change between 2005 & 2006
 # ----------------------------------------
 # QUERY 4: are there cascading failures as delays between airports?
