@@ -109,6 +109,17 @@ dev.off()
 # ----------------------------------------------------------
 # QUERY 3: How do number of people flying between destinations change over time
 # use igraph
-install.packages('igraph')
-library('igraph')
+if(!require(igraph)) install.packages("igraph") 
+library(igraph)
+if(!require(igraphdata)) install.packages("igraphdata") 
+library(igraphdata)
 # year 2005
+destinations <- union(unique(f05$Dest), unique(f05$Origin))
+mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
+rownames(mat) <- colnames(mat) <- destinations
+for (i in 1:length(destinations)) {
+  for (j in 1:length(destinations)) {
+    mat[i,j] <- length(which(f05$Origin==destinations[i] & 
+                        f05$Dest==destinations[j]))
+  }
+}
