@@ -116,7 +116,7 @@ if(!require(igraphdata)) install.packages("igraphdata")
 library(igraphdata)
 #
 # year 2005
-f05_sub <- f05[1:10000,]
+f05_sub <- f05[sample(1:nrow(f05), 100),]
 destinations <- union(unique(f05_sub$Dest), unique(f05_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
 rownames(mat) <- colnames(mat) <- destinations
