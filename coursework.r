@@ -116,13 +116,14 @@ if(!require(igraphdata)) install.packages("igraphdata")
 library(igraphdata)
 #
 # year 2005
-destinations <- union(unique(f05$Dest), unique(f05$Origin))
+f05_sub <- f05[1:1000,]
+destinations <- union(unique(f05_sub$Dest), unique(f05_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
 rownames(mat) <- colnames(mat) <- destinations
 for (i in 1:length(destinations)) {
   for (j in 1:length(destinations)) {
-    mat[i,j] <- length(which(f05$Origin==destinations[i] & 
-                        f05$Dest==destinations[j]))
+    mat[i,j] <- length(which(f05_sub$Origin==destinations[i] & 
+                        f05_sub$Dest==destinations[j]))
   }
 }
 network <- graph_from_incidence_matrix(mat, directed = TRUE)
