@@ -1,5 +1,5 @@
 # preparation
-install.packages('tidyverse')
+if(!require(tidyverse)) install.packages('tidyverse')
 library('tidyverse')
 install.packages('RSQLite')
 library('RSQLite')
