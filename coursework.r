@@ -127,13 +127,13 @@ for (i in 1:length(destinations)) {
   }
 }
 network <- graph_from_incidence_matrix(mat, directed = TRUE)
-network_groups <- cluster_optimal(network)
+network_groups05 <- cluster_optimal(network)
 coords <- layout_in_circle(network,
                            order =
-                             order(membership(network_groups))
+                             order(membership(network_groups05))
 )
 V(network)$label <- sub("Actor ", "", V(network)$name)
-V(network)$label.color <- membership(network_groups)
+V(network)$label.color <- membership(network_groups05)
 V(network)$shape <- "none"
 E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network05R.png', height=1000, width=1000)
@@ -152,13 +152,13 @@ for (i in 1:length(destinations)) {
   }
 }
 network <- graph_from_incidence_matrix(mat, directed = TRUE)
-network_groups <- cluster_optimal(network)
+network_groups06 <- cluster_optimal(network)
 coords <- layout_in_circle(network,
                            order =
-                             order(membership(network_groups))
+                             order(membership(network_groups06))
 )
 V(network)$label <- sub("Actor ", "", V(network)$name)
-V(network)$label.color <- membership(network_groups)
+V(network)$label.color <- membership(network_groups06)
 V(network)$shape <- "none"
 E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network06R.png', height=1000, width=1000)
