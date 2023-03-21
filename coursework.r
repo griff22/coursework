@@ -141,6 +141,7 @@ plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 200
 dev.off()
 #
 # year 2006 first 5000 flights anymore & processing time is too long
+# memory issues when running after 2005 network?????? how resolve?
 f06_sub <- f06[1:5000,]
 destinations <- union(unique(f06_sub$Dest), unique(f06_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
@@ -164,3 +165,8 @@ E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network06R.png', height=1000, width=1000)
 plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 first 5,000 flights")
 dev.off()
+# conclusion from Python work as memory issues using R igraph
+# conclusion: no major change between 2005 & 2006
+# ----------------------------------------
+# QUERY 4: are there cascading failures as delays between airports?
+
