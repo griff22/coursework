@@ -136,7 +136,7 @@ coords <- layout_in_circle(network,
 V(network)$label <- sub("Actor ", "", V(network)$name)
 V(network)$label.color <- membership(network_groups05)
 V(network)$shape <- "none"
-E(network)$weight <- edge.betweenness(network)/100
+E(network)$weight <- edge.betweenness(network)/10000
 png(file='c:/coursework/Network05R.png', height=1000, width=1000)
 plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 random 1,000 flights")
 dev.off()
@@ -162,12 +162,11 @@ coords <- layout_in_circle(network,
 V(network)$label <- sub("Actor ", "", V(network)$name)
 V(network)$label.color <- membership(network_groups06)
 V(network)$shape <- "none"
-E(network)$weight <- edge.betweenness(network)/100
+E(network)$weight <- edge.betweenness(network)/10000
 png(file='c:/coursework/Network06R.png', height=1000, width=1000)
 plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 random 1,000 flights")
 dev.off()
-# conclusion from Python work as memory & plotting issues using R igraph
-# conclusion: no major change between 2005 & 2006
+# conclusion: on comparing plots, no major change between 2005 & 2006
 # ----------------------------------------
 # QUERY 4: are there cascading failures as delays between airports?
 
