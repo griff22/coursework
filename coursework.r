@@ -13,7 +13,7 @@ install.packages("dbplyr")
 library(dbplyr)
 #
 # connect to DB already set up
-setwd('c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK')
+setwd('c:/')
 conn <- dbConnect(RSQLite::SQLite(), 'flights.db')
 #
 # check all there
@@ -32,7 +32,7 @@ str(bestmonth) # answer is $ Month        : int  1 2 3 4 5 6 7 8 9 10 ...$ AVG(D
 # plot
 avg.dep.delay.month <- c(bestmonth$`AVG(DepDelay)`)
 month <- c(bestmonth$Month)
-png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/MonthR.png', width=600)
+png(file='c:/MonthR.png', width=600)
 barplot(avg.dep.delay.month, names.arg = month.abb, main='Av Dep Delay per Month in 2005 & 2006', xlab='Month', ylab='Delay (mins)')
 dev.off()
 #
@@ -43,7 +43,7 @@ bestday <- dbGetQuery(conn, 'SELECT DayOfWeek, AVG(DepDelay) FROM flights WHERE 
 avg.dep.delay.day <- c(bestday$`AVG(DepDelay)`)
 day <- c(bestday$DayOfWeek)
 day <- day %>% recode(`1`= "Mon", `2`="Tue", `3`= "Wed", '4'="Thu", '5'="Fri", '6'="Sat", '7'="Sun")
-png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/DayR.png', height=1000, width=1000)
+png(file='c:/DayR.png', height=1000, width=1000)
 barplot(avg.dep.delay.day, names.arg = day, main = 'Av Dep Delay per Day in April 05 & 06', xlab='Day', ylab ='Delay (mins)')
 dev.off()
 #
@@ -56,7 +56,7 @@ for(i in 1:24){
   mean_dep[i] <- mean(besthour1$`AVG(DepDelay)`[which(besthour1$DepTime_perhour==i)])
 }
 which.min(mean_dep) #answer is hour 6 which is 0500-0600 as no flights 0400-0500
-png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/HourR.png', height=1000, width=1000)
+png(file='c:/HourR.png', height=1000, width=1000)
 barplot(mean_dep, names.arg=1:24, cex.names = 0.7, col = "lightblue", main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
 dev.off()
 #
@@ -64,9 +64,9 @@ dev.off()
 # QUERY 2. Do older plane suffer more delays?
 #
 # setup
-p <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\plane-data.csv")
-f05 <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\2005.csv")
-f06 <- read.csv("C:\\users\\surface\\documents\\programming\\coursework\\dataverse\\2006.csv")
+p <- read.csv("C:\\dataverse\\plane-data.csv")
+f05 <- read.csv("C:\\dataverse\\2005.csv")
+f06 <- read.csv("C:\\dataverse\\2006.csv")
 #
 # age of planes
 age_2005 <- 2005-as.numeric(p$year)
@@ -98,7 +98,7 @@ joined_tail <- merge(by_tail, p_final, by.x="TailNum", by.y="tailnum")
 #
 # plots
 # barplot(age_05_avg_ddelay2$avgddelay) 
-png(file='c:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/AgeR.png', height=1000, width=1000)
+png(file='c:/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 abline(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age), col='orange')
 summary(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age))$coefficients
