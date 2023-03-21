@@ -139,3 +139,28 @@ E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network05R.png', height=1000, width=1000)
 plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 first 5,000 flights")
 dev.off()
+#
+# year 2006 first 5000 flights anymore & processing time is too long
+f06_sub <- f06[1:5000,]
+destinations <- union(unique(f06_sub$Dest), unique(f06_sub$Origin))
+mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
+rownames(mat) <- colnames(mat) <- destinations
+for (i in 1:length(destinations)) {
+  for (j in 1:length(destinations)) {
+    mat[i,j] <- length(which(f06_sub$Origin==destinations[i] & 
+                        f06_sub$Dest==destinations[j]))
+  }
+}
+network <- graph_from_incidence_matrix(mat, directed = TRUE)
+network_groups <- cluster_optimal(network)
+coords <- layout_in_circle(network,
+                           order =
+                             order(membership(network_groups))
+)
+V(network)$label <- sub("Actor ", "", V(network)$name)
+V(network)$label.color <- membership(network_groups)
+V(network)$shape <- "none"
+E(network)$weight <- edge.betweenness(network)/100
+png(file='c:/coursework/Network06R.png', height=1000, width=1000)
+plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 first 5,000 flights")
+dev.off()
