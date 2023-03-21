@@ -115,8 +115,8 @@ library(igraph)
 if(!require(igraphdata)) install.packages("igraphdata") 
 library(igraphdata)
 #
-# year 2005 first 1000 flights - anymore & processing time is too long
-f05_sub <- f05[1:1000,]
+# year 2005 first 5000 flights anymore & processing time is too long
+f05_sub <- f05[1:5000,]
 destinations <- union(unique(f05_sub$Dest), unique(f05_sub$Origin))
 mat <- matrix(0, nrow = length(destinations), ncol = length(destinations))
 rownames(mat) <- colnames(mat) <- destinations
@@ -137,5 +137,5 @@ V(network)$label.color <- membership(network_groups)
 V(network)$shape <- "none"
 E(network)$weight <- edge.betweenness(network)/100
 png(file='c:/coursework/Network05R.png', height=1000, width=1000)
-plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 first 1000 flights")
+plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2005 first 5,000 flights")
 dev.off()
