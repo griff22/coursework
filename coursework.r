@@ -1,15 +1,15 @@
 # preparation
 if(!require(tidyverse)) install.packages('tidyverse')
 library('tidyverse')
-install.packages('RSQLite')
+if(!require(RSQLite)) install.packages('RSQLite')
 library('RSQLite')
-install.packages('DBI')
+if(!require(DBI))install.packages('DBI')
 library('DBI')
-install.packages('ggplot2')
+if(!require(ggplot2))install.packages('ggplot2')
 library('ggplot2')
-install.packages("lubridate")
+if(!require(lubridate))install.packages("lubridate")
 library(lubridate)
-install.packages("dbplyr")
+if(!require(dbplyr))install.packages("dbplyr")
 library(dbplyr)
 #
 # connect to DB already set up
