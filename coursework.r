@@ -169,4 +169,61 @@ dev.off()
 # conclusion: on comparing plots, no major change between 2005 & 2006
 # ----------------------------------------
 # QUERY 4: are there cascading failures as delays between airports?
+if(!require(ggplot2)) install.packages("ggplot2") 
+library(ggplot2)
 
+f_05_1000 <- f_05[1:1000,]
+f_05a <- f_05_1000[which(f_05_1000$Cancelled==0 & f_05_1000$DepDelay>=0),]
+average_delay_dest <- aggregate(f_05a$DepDelay, by = list(f_05a$Dest), mean)
+
+data_for_ori_dest <- aggregate(data.frame(f_05a$DepDelay), 
+                               by = list(f_05a$Year, f_05a$Month, f_05a$DayofMonth, f_05a$Origin, f_05a$Dest), 
+                               function(x)  list(x))
+
+colnames(data_for_ori_dest) <- c("Year", "Month", "DayofMonth", "Origin", "Dest", "DepDelay")
+origin_unique <- unique(data_for_ori_dest$Origin)
+res <- vector()
+for (i in 1:length(origin_unique)) {
+  xx <- which(data_for_ori_dest$Dest==origin_unique[i])
+  if(length(xx)>0){
+    new_data <- data_for_ori_dest[xx,]
+    new_data$DepDelay <- unlist(lapply(new_data$DepDelay, mean))
+    new_data1 <- aggregate(new_data$DepDelay, by = list(new_data$Year, new_data$Month, new_data$DayofMonth), mean)
+    res <- rbind(res, data.frame(new_data1, Dest = rep(origin_unique[i], nrow(new_data1))))
+  }
+  else{
+    next
+  }
+}
+colnames(res) <- c("Year", "Month", "DayofMonth", "DepDelay_for_origin", "Origin")
+
+
+data_for_ori_dest1 <- aggregate(data.frame(f_05a$DepDelay), 
+                                by = list(f_05a$Year, f_05a$Month, f_05a$DayofMonth, f_05a$Origin), 
+                                mean)
+colnames(data_for_ori_dest1) <- c("Year", "Month", "DayofMonth", "Origin", "DepDelay_for_dest")
+
+DepDelay_for_origin <- vector()
+for (i in 1:nrow(data_for_ori_dest1)) {
+  line_info <-   which(
+      res$Year == data_for_ori_dest1$Year[i] &      
+      res$Month == data_for_ori_dest1$Month[i] & 
+      res$DayofMonth == data_for_ori_dest1$DayofMonth[i] & 
+      res$Origin == data_for_ori_dest1$Origin[i]
+  )
+  if(length(line_info)>0){
+    DepDelay_for_origin[i] <- res$DepDelay_for_origin[line_info]
+  }
+  else{
+    DepDelay_for_origin[i] <- 0
+  }
+}
+final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
+
+ggplot(final_res, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
+  theme_bw() +
+  geom_text(label=final_res$Origin, size = 3) +
+  geom_smooth(method = "lm", se = FALSE) + 
+  labs(title = "Cascading delays between airports",
+       x     = "Delay at the destination airport", 
+       y     = "Departure delay at the origin airport")
