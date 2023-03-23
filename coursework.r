@@ -11,6 +11,8 @@ if(!require(lubridate))install.packages("lubridate")
 library(lubridate)
 if(!require(dbplyr))install.packages("dbplyr")
 library(dbplyr)
+if(!require(ggpmisc))install.packages("ggpmisc")
+library(ggpmisc)
 #
 # connect to DB already set up
 setwd('c:/')
