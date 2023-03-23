@@ -223,11 +223,14 @@ final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
 final2 <- final_res[final_res$DepDelay_for_origin != 0, ]
 #
 # plot
-png(file='c:/coursework/CascadeR2.png', height=1000, width=1000)
+png(file='c:/coursework/CascadeR4.png', height=1000, width=1000)
 ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
   theme_bw() +
   geom_text(label=final2$Origin, size = 3) +
-  geom_smooth(method = "lm", se = FALSE) + 
+  stat_poly_line() +
+  stat_poly_eq(aes(label = paste(after_stat(eq.label),
+                                 after_stat(rr.label), sep = "*\", \"*"))) +
+  geom_point() +                           
   labs(title = "Cascading delays between airports", x = "Delay at the destination airport", y = "Departure delay at the origin airport")
 dev.off()
 summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
