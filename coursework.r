@@ -217,7 +217,7 @@ for (i in 1:nrow(data_for_ori_dest1)) {
     DepDelay_for_origin[i] <- 0
   }
 }
-final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
+final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)                            
 #
 # plot
 ggplot(final_res, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
