@@ -235,4 +235,15 @@ ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) +
   labs(title = "Cascading delays between airports", x = "Delay at the destination airport", y = "Departure delay at the origin airport")
 dev.off()
 summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
-# answer for test data. intercept 23.5 minutes, gradient = 0.67 minutes.
+# answer for test 05 data. intercept 11.4 minutes, gradient = 0.41 minutes.
+# similar answer to Python but R took much longer to run
+#
+# -------------------------------------------------------------
+# QUERY 5. MODEL.
+# use mlr3 and skimr for reports
+if(!require(mlr3))install.packages("mlr3")
+library(mlr3)
+if(!require(skimr))install.packages("skimr")
+library(skimr) 
+#
+                               
