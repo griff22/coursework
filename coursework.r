@@ -174,13 +174,14 @@ dev.off()
 # QUERY 4: are there cascading failures as delays between airports?
 #
 # test data 
-f05_1000 <- f05
-f05a <- f05_1000[which(f05_1000$Cancelled==0 & f05_1000$DepDelay>=0),]
+# f05_1000 <- f05
+f0506 <- rbind(f05, f06)
+f0506a <- f0506[which(f0506$Cancelled==0 & f0506$DepDelay>=0),]
 #
 # dep delay at leaving airport
-average_delay_dest <- aggregate(f05a$DepDelay, by = list(f05a$Dest), mean)
-data_for_ori_dest <- aggregate(data.frame(f05a$DepDelay), 
-                               by = list(f05a$Year, f05a$Month, f05a$DayofMonth, f05a$Origin, f05a$Dest), 
+average_delay_dest <- aggregate(f0506$DepDelay, by = list(f0506$Dest), mean)
+data_for_ori_dest <- aggregate(data.frame(f0506$DepDelay), 
+                               by = list(f0506$Year, f0506$Month, f0506$DayofMonth, f0506$Origin, f0506$Dest), 
                                function(x)  list(x))
 colnames(data_for_ori_dest) <- c("Year", "Month", "DayofMonth", "Origin", "Dest", "DepDelay")
 #
@@ -200,8 +201,8 @@ for (i in 1:length(origin_unique)) {
   }
 }
 colnames(res) <- c("Year", "Month", "DayofMonth", "DepDelay_for_origin", "Origin")
-data_for_ori_dest1 <- aggregate(data.frame(f05a$DepDelay), 
-                                by = list(f05a$Year, f05a$Month, f05a$DayofMonth, f05a$Origin), 
+data_for_ori_dest1 <- aggregate(data.frame(f0506$DepDelay), 
+                                by = list(f0506$Year, f0506$Month, f0506$DayofMonth, f0506$Origin), 
                                 mean)
 colnames(data_for_ori_dest1) <- c("Year", "Month", "DayofMonth", "Origin", "DepDelay_for_dest")
 DepDelay_for_origin <- vector()
@@ -223,7 +224,7 @@ final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
 final2 <- final_res[final_res$DepDelay_for_origin != 0, ]
 #
 # plot
-png(file='c:/coursework/CascadeRall05.png', height=1000, width=1000)
+png(file='c:/coursework/CascadeRall0506.png', height=1000, width=1000)
 ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
   theme_bw() +
   geom_text(label=final2$Origin, size = 3) +
