@@ -174,7 +174,7 @@ dev.off()
 # QUERY 4: are there cascading failures as delays between airports?
 #
 # test data 
-f05_1000 <- f05[1:1000,]
+f05_1000 <- f05[1:10000,]
 f05a <- f05_1000[which(f05_1000$Cancelled==0 & f05_1000$DepDelay>=0),]
 #
 # dep delay at leaving airport
@@ -223,7 +223,7 @@ final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
 final2 <- final_res[final_res$DepDelay_for_origin != 0, ]
 #
 # plot
-png(file='c:/coursework/CascadeR10.png', height=1000, width=1000)
+png(file='c:/coursework/CascadeR10k.png', height=1000, width=1000)
 ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
   theme_bw() +
   geom_text(label=final2$Origin, size = 3) +
