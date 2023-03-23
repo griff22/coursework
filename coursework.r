@@ -218,12 +218,12 @@ for (i in 1:nrow(data_for_ori_dest1)) {
   }
 }
 final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)     
-final_res[final_res$DepDelay_for_origin != 0, ]
+final2 <- final_res[final_res$DepDelay_for_origin != 0, ]
 #
 # plot
-ggplot(final_res, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
+ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
   theme_bw() +
-  geom_text(label=final_res$Origin, size = 3) +
+  geom_text(label=final2$Origin, size = 3) +
   geom_smooth(method = "lm", se = FALSE) + 
   labs(title = "Cascading delays between airports",
        x     = "Delay at the destination airport", 
