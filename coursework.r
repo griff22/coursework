@@ -235,9 +235,9 @@ ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) +
   labs(title = "Cascading delays between airports", x = "Delay at the destination airport", y = "Departure delay at the origin airport")
 dev.off()
 summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
-# answer for test 05 data. intercept 11.4 minutes, gradient = 0.41 minutes.
-# similar answer to Python but R took much longer to run
-#
+# answer for test 05 data. intercept 11.4 minutes, gradient = 0.41 minutes. similar answer to Python but R took much longer to run                              
+# answer for all 05 & 06. intercept 5.2 minutes, gradient = 0.54 minutes. looks odd with warning messages and many negative dep delays.
+# final answer. yes, there are cascading delays with approx 50% of the delay cascading into subsequent flight of airplane & 50% caught up.
 # -------------------------------------------------------------
 # QUERY 5. MODEL.
 # use mlr3 and skimr for reports
