@@ -167,16 +167,23 @@ png(file='c:/coursework/Network06R.png', height=1000, width=1000)
 plot(network, layout = coords, edge.width=E(network)$weight, main = "Network 2006 random 1,000 flights")
 dev.off()
 # conclusion: on comparing plots, no major change between 2005 & 2006
-# ----------------------------------------
+#
+# -----------------------------------------------------------------
 # QUERY 4: are there cascading failures as delays between airports?
+#
+# test data 
 f05_1000 <- f05[1:1000,]
 f05a <- f05_1000[which(f05_1000$Cancelled==0 & f05_1000$DepDelay>=0),]
+#
+# dep delay at leaving airport
 average_delay_dest <- aggregate(f05a$DepDelay, by = list(f05a$Dest), mean)
 data_for_ori_dest <- aggregate(data.frame(f05a$DepDelay), 
                                by = list(f05a$Year, f05a$Month, f05a$DayofMonth, f05a$Origin, f05a$Dest), 
                                function(x)  list(x))
 colnames(data_for_ori_dest) <- c("Year", "Month", "DayofMonth", "Origin", "Dest", "DepDelay")
-origin_unique <- unique(data_for_ori_dest$Origin)
+#
+# find dep delay at origin airport
+origin_unique <- unique(data_for_ori_dest$Origin)                               
 res <- vector()
 for (i in 1:length(origin_unique)) {
   xx <- which(data_for_ori_dest$Dest==origin_unique[i])
@@ -211,6 +218,8 @@ for (i in 1:nrow(data_for_ori_dest1)) {
   }
 }
 final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)
+#
+# plot
 ggplot(final_res, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
   theme_bw() +
   geom_text(label=final_res$Origin, size = 3) +
