@@ -228,3 +228,5 @@ ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) +
   geom_smooth(method = "lm", se = FALSE) + 
   labs(title = "Cascading delays between airports", x = "Delay at the destination airport", y = "Departure delay at the origin airport")
 dev.off()
+summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
+# answer for test data. intercept 23.5 minutes, gradient = 0.67 minutes.
