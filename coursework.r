@@ -313,13 +313,14 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
 dev.off()
 #
 # Random forest
+if(!require(randomForest)) install.packages("randomForest") 
+library(randomForest)
 train_result_rf <- train(DepDelay~., 
                          data = training,
                          method = "rf",
-                         ntree = 1000,
+                         ntree = 10000,
                          preProc = c("center","scale"),
                          tuneGrid = expand.grid(.mtry=c(sqrt(ncol(training)))))
-
 test_pred_rf  <- predict(train_result_rf, newdata=testing[,-1])
 post_rf <- postResample(pred = test_pred_rf, obs = testing[,1])
 
