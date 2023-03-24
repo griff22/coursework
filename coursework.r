@@ -240,7 +240,115 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # final answer. yes, there are cascading delays with approx 50% of the delay cascading into subsequent flight of airplane & 50% caught up.
 # -------------------------------------------------------------
 # QUERY 5. MODEL.
-# use mlr3 and skimr for reports
+f_05_1000 <- f_05[1:1000,]
+f_05a <- f_05_1000[which(f_05_1000$Cancelled==0),]
+
+if(!require(caret)) install.packages("caret") 
+library(caret)
+### Paralel computing ####
+if(!require(parallel)) install.packages("parallel")
+library(parallel) ## YSA icin
+if(!require(doParallel)) install.packages("doParallel")
+library(doParallel) ## YSA icin
+
+colnames(f_05a)[nearZeroVar(f_05a)]
+#[1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
+#[7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
+ML_flight_data <- f_05a[,c("DepDelay", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest", "LateAircraftDelay")]
+ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
+
+
+### Data prepartion
+inTrain <- createDataPartition(ML_flight_data$DepDelay, p = 0.9)[[1]]
+training <- ML_flight_data[inTrain,]
+testing  <- ML_flight_data[-inTrain,]
+
+
+# Linear regression
+train_result_lm <- train(DepDelay~., 
+  data = training,
+  method = "lm",
+  preProc = c("center","scale"))
+test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
+post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
+
+
+### Visulasations ####
+plot_data <- data.frame(pred_result = test_pred, actual_truth = testing[,1])
+ggplot(plot_data, aes(x=actual_truth, y=pred_result)) + 
+  geom_point() +
+  theme_bw() +
+  #geom_text(label=final_res$Origin, size = 3) +
+  geom_smooth(method = "lm", se = FALSE) + 
+  labs(title = "Departure delay prediction (Linear regression)",
+       x     = "Actual truth", 
+       y     = "Prediction results")
+
+var_imp_res <- varImp(train_result_lm)
+variable   <- rownames(var_imp_res$importance)[1:10]
+importance <- var_imp_res$importance[1:10,1]
+data_res   <- data.frame(variable, importance)
+ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
+  geom_bar(stat="identity", position="dodge")+ coord_flip()+
+  geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
+  ylab("Variable Importance (Linear regression)")+ 
+  xlab("")+ ylim(0,110) + 
+  theme_bw() +
+  theme(axis.text.x = element_text(face="bold", size= 15), 
+        axis.text.y = element_text(face="bold", size= 15)) + 
+  guides(fill=F) +
+  scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
+
+
+# Random forest
+train_result_rf <- train(DepDelay~., 
+                         data = training,
+                         method = "rf",
+                         ntree = 1000,
+                         preProc = c("center","scale"),
+                         tuneGrid = expand.grid(.mtry=c(sqrt(ncol(training)))))
+
+test_pred_rf  <- predict(train_result_rf, newdata=testing[,-1])
+post_rf <- postResample(pred = test_pred_rf, obs = testing[,1])
+
+
+### Visualizations ####
+plot_data <- data.frame(pred_result = test_pred, actual_truth = testing[,1])
+ggplot(plot_data, aes(x=actual_truth, y=pred_result)) + 
+  geom_point() +
+  theme_bw() +
+  #geom_text(label=final_res$Origin, size = 3) +
+  geom_smooth(method = "lm", se = FALSE) + 
+  labs(title = "Departure delay prediction (Random forest)",
+       x     = "Actual truth", 
+       y     = "Prediction results")
+
+var_imp_res <- varImp(train_result_rf)
+variable   <- rownames(var_imp_res$importance)[1:10]
+importance <- var_imp_res$importance[1:10,1]
+data_res   <- data.frame(variable, importance)
+ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
+  geom_bar(stat="identity", position="dodge")+ coord_flip()+
+  geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
+  ylab("Variable Importance (Random forest)")+ 
+  xlab("")+ ylim(0,110) + 
+  theme_bw() +
+  theme(axis.text.x = element_text(face="bold", size= 15), 
+        axis.text.y = element_text(face="bold", size= 15)) + 
+  guides(fill=F) +
+  scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
+
+
+rbind(post_lm, post_rf)
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               # use mlr3 and skimr for reports
 if(!require(mlr3))install.packages("mlr3")
 library(mlr3)
 if(!require(skimr))install.packages("skimr")
