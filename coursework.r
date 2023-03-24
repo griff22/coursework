@@ -245,5 +245,7 @@ if(!require(mlr3))install.packages("mlr3")
 library(mlr3)
 if(!require(skimr))install.packages("skimr")
 library(skimr) 
+if(!require(mlr3learners))install.packages("mlr3learners")
+library(mlr3learners)                             
 #
                                
