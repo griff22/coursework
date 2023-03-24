@@ -211,9 +211,9 @@ figure(figsize=(25, 17))
 plt.title('Top networks 2005', fontsize=30)
 # plt.legend(airports)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_05nodes.png')
+plt.savefig('C:/COURSEWORK/Top_Ten_05nodes.png')
 # top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
-# DCA is Arlington, LGA is NY, ORD is Chicago, LAS is Las Vegas)
+# DCA is Washington, LGA is NY, ORD is Chicago, LAS is Las Vegas)
 #
 # top 10 for 2006
 year = 2006
@@ -236,13 +236,14 @@ figure(figsize=(25, 17))
 plt.title('Top networks 2006', fontsize=30)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
 # plt.legend()
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/Top_Ten_06nodes.png')
+plt.savefig('C:/COURSEWORK/Top_Ten_06nodes.png')
 # top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
-# HNL is Honolulu and OGG is Kahului??
-#
+# HNL is Honolulu and OGG is Kahului
+# Hawaii airports make into top networks in 2006, relegating Chicago from 2005
+# perhaps Hawaii holidays back in vogue in 2006 after War on Terror subdued
 # need to improve graphs
 #
-# answer: there is no significant difference between the years in pattern of travel although Hawaii becomes more popular in 2006 and Arlington less popular?
+# answer: there is no significant difference between the years in pattern of travel although Hawaii becomes more popular in 2006 and Washington less popular.
 #
 #
 # -------------------------
