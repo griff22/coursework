@@ -336,11 +336,12 @@ ggplot(plot_data, aes(x=actual_result, y=pred_result)) +
        x     = "Actual result", 
        y     = "Prediction result")
 dev.off()
-#
+# vis RF variables of importance
 var_imp_res <- varImp(train_result_rf)
-variable   <- rownames(var_imp_res$importance)[1:10]
-importance <- var_imp_res$importance[1:10,1]
+variable   <- rownames(var_imp_res$importance)
+importance <- var_imp_res$importance[,1]
 data_res   <- data.frame(variable, importance)
+png(file='c:/coursework/modelRFimportance.png', height=1000, width=1000) 
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
   geom_bar(stat="identity", position="dodge")+ coord_flip()+
   geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
@@ -351,25 +352,7 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
         axis.text.y = element_text(face="bold", size= 15)) + 
   guides(fill=F) +
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
-
-
+dev.off()
+# suumary LM v RF
 rbind(post_lm, post_rf)
-                               
-                               
-                               
-                               
-                               
-                               
-                               
-                               
-                               # use mlr3 and skimr for reports
-if(!require(mlr3))install.packages("mlr3")
-library(mlr3)
-if(!require(skimr))install.packages("skimr")
-library(skimr) 
-if(!require(mlr3learners))install.packages("mlr3learners")
-library(mlr3learners) 
-if(!require(mlr3pipelines))install.packages("mlr3pipelines")
-library(mlr3pipelines)                           
-#
                                
