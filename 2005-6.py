@@ -93,7 +93,7 @@ plt.xticks(np.arange(0, 25, 1))
 plt.xlabel('Hour')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay on Tuesdays in April 05 & 06 (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/hourPY.png')
+plt.savefig('C:/COURSEWORK/hourPY.png')
 # answer is 0500-0600
 # Final answer is Tuesday in April at 0500-0600
 #
