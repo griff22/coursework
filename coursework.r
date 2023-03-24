@@ -355,4 +355,11 @@ dev.off()
 #
 # summary LM v RF
 rbind(post_lm, post_rf)
+# final answer is RF gives an improved result over LM but takes much longer.
+# RMSE  Rsquared       MAE
+# post_lm 15.01140 0.8939266 10.472754      
+# post_rf 12.87276 0.9229449  7.938353
+# end                            
+                               
+                               
                                
