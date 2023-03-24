@@ -242,8 +242,8 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # QUERY 5. MODEL.
 #
 # data                              
-# f_05_100000 <- f_05[1:100000,]
-f05ML <- f05[which(f05$Cancelled==0),]
+f05_100k <- f05[1:100000,]
+f05ML <- f05_100k[which(f05$Cancelled==0),]
 #
 # use caret package                            
 if(!require(caret)) install.packages("caret") 
@@ -259,8 +259,8 @@ library(doParallel)
 colnames(f05ML)[nearZeroVar(f05ML)]
 # on test 1000 [1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
 # on test 1000 [7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
-# on test 2005 [1] "Year"              "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"          "SecurityDelay"    
-# on test 2005 [9] "LateAircraftDelay"
+# on test all 2005 [1] "Year"              "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"          "SecurityDelay"    
+# on test all 2005 [9] "LateAircraftDelay"
 # select variables & ignore NAs
 ML_flight_data <- f05ML[,c("DepDelay", "Month", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
@@ -269,8 +269,7 @@ ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 inTrain <- createDataPartition(ML_flight_data$DepDelay, p = 0.9)[[1]]
 training <- ML_flight_data[inTrain,]
 testing  <- ML_flight_data[-inTrain,]
-
-
+#
 # Linear regression
 train_result_lm <- train(DepDelay~., 
   data = training,
