@@ -241,9 +241,9 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # -------------------------------------------------------------
 # QUERY 5. MODEL.
 #
-# data                              
+# data. note my computer could not handle all 2005 data of 7 million flights. necessary to restrict data.                         
 f05_100k <- f05[1:100000,]
-f05ML <- f05_100k[which(f05$Cancelled==0),]
+f05ML <- f05_100k[which(f05_100k$Cancelled==0),]
 #
 # use caret package                            
 if(!require(caret)) install.packages("caret") 
@@ -261,8 +261,11 @@ colnames(f05ML)[nearZeroVar(f05ML)]
 # on test 1000 [7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
 # on test all 2005 [1] "Year"              "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"          "SecurityDelay"    
 # on test all 2005 [9] "LateAircraftDelay"
+# on 100k flights [1] "Year"              "Month"             "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"         
+# on 100k flights [9] "SecurityDelay"     "LateAircraftDelay"
+#                              
 # select variables & ignore NAs
-ML_flight_data <- f05ML[,c("DepDelay", "Month", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
+ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 #
 # data prep with 90% in training set
@@ -277,9 +280,9 @@ train_result_lm <- train(DepDelay~.,
   preProc = c("center","scale"))
 test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
 post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
-
-
-### Visulasations ####
+#
+#
+# visualisations LM #
 plot_data <- data.frame(pred_result = test_pred, actual_truth = testing[,1])
 ggplot(plot_data, aes(x=actual_truth, y=pred_result)) + 
   geom_point() +
