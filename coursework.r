@@ -249,7 +249,7 @@ f05ML <- f05[which(f05$Cancelled==0),]
 if(!require(caret)) install.packages("caret") 
 library(caret)
 #
-# parallel computing
+# parallel computing if needed
 if(!require(parallel)) install.packages("parallel")
 library(parallel)
 if(!require(doParallel)) install.packages("doParallel")
@@ -257,11 +257,12 @@ library(doParallel)
 #                             
 # see what variables don't matter
 colnames(f05ML)[nearZeroVar(f05ML)]
-#[1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
-#[7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
-#
+# on test 1000 [1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
+# on test 1000 [7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
+# on test 2005 [1] "Year"              "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"          "SecurityDelay"    
+# on test 2005 [9] "LateAircraftDelay"
 # select variables & ignore NAs
-ML_flight_data <- f_05a[,c("DepDelay", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest", "LateAircraftDelay")]
+ML_flight_data <- f05ML[,c("DepDelay", "Month", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 
 
