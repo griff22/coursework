@@ -281,17 +281,18 @@ train_result_lm <- train(DepDelay~.,
 test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
 post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
 #
-#
-# visualisations LM #
-plot_data <- data.frame(pred_result = test_pred, actual_truth = testing[,1])
-ggplot(plot_data, aes(x=actual_truth, y=pred_result)) + 
+# visualisations LM
+png(file='c:/coursework/modelLM.png', height=1000, width=1000)                              
+plot_data <- data.frame(pred_result = test_pred, actual_result = testing[,1])
+ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
   theme_bw() +
   #geom_text(label=final_res$Origin, size = 3) +
   geom_smooth(method = "lm", se = FALSE) + 
   labs(title = "Departure delay prediction (Linear regression)",
-       x     = "Actual truth", 
-       y     = "Prediction results")
+       x     = "Actual result", 
+       y     = "Predicted result")
+dev.off()
 
 var_imp_res <- varImp(train_result_lm)
 variable   <- rownames(var_imp_res$importance)[1:10]
