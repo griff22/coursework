@@ -136,7 +136,7 @@ plt.xticks(np.arange(0, 51, 1))
 plt.xlabel('Age at Departure (Years)')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Age of aircraft (minutes)')
-plt.savefig('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/age.png')
+plt.savefig('C:/COURSEWORK/age.png')
 # Line equation
 # print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
 # answer gradient +0.08, intercept +22.9
