@@ -6,15 +6,15 @@ import numpy as np
 import networkx as nx
 # -------------------------------------------
 # create database
-conn = sqlite3.connect('C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/flights.db')
+conn = sqlite3.connect('C:/flights.db')
 # -------------------------------------------
 # initialise dataframes
-df_05 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2005.csv.bz2", compression="bz2")
-df_06 = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/2006.csv.bz2", compression="bz2")
-df_pl = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/plane-data.csv")
-df_ap = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/airports.csv")
-df_ca = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/carriers.csv")
-df_vd = pd.read_csv("C:/Users/Surface/Documents/PROGRAMMING/COURSEWORK/dataverse/variable-descriptions.csv")
+df_05 = pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2")
+df_06 = pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")
+df_pl = pd.read_csv("C:/dataverse/plane-data.csv")
+df_ap = pd.read_csv("C:/dataverse/airports.csv")
+df_ca = pd.read_csv("C:/dataverse/carriers.csv")
+df_vd = pd.read_csv("C:/dataverse/variable-descriptions.csv")
 # -------------------------------------------
 # insert data into database
 df_05.to_sql('flights', con=conn, index=False, if_exists='replace')
