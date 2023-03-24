@@ -240,20 +240,27 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # final answer. yes, there are cascading delays with approx 50% of the delay cascading into subsequent flight of airplane & 50% caught up.
 # -------------------------------------------------------------
 # QUERY 5. MODEL.
-f_05_1000 <- f_05[1:1000,]
-f_05a <- f_05_1000[which(f_05_1000$Cancelled==0),]
-
+#
+# data                              
+# f_05_100000 <- f_05[1:100000,]
+f05ML <- f05[which(f05$Cancelled==0),]
+#
+# use caret package                            
 if(!require(caret)) install.packages("caret") 
 library(caret)
-### Paralel computing ####
+#
+# parallel computing
 if(!require(parallel)) install.packages("parallel")
-library(parallel) ## YSA icin
+library(parallel)
 if(!require(doParallel)) install.packages("doParallel")
-library(doParallel) ## YSA icin
-
-colnames(f_05a)[nearZeroVar(f_05a)]
+library(doParallel)
+#                             
+# see what variables don't matter
+colnames(f05ML)[nearZeroVar(f05ML)]
 #[1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
 #[7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
+#
+# select variables & ignore NAs
 ML_flight_data <- f_05a[,c("DepDelay", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest", "LateAircraftDelay")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 
