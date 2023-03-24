@@ -318,24 +318,25 @@ library(randomForest)
 train_result_rf <- train(DepDelay~., 
                          data = training,
                          method = "rf",
-                         ntree = 10000,
+                         ntree = 1000,
                          preProc = c("center","scale"),
                          tuneGrid = expand.grid(.mtry=c(sqrt(ncol(training)))))
 test_pred_rf  <- predict(train_result_rf, newdata=testing[,-1])
 post_rf <- postResample(pred = test_pred_rf, obs = testing[,1])
-
-
-### Visualizations ####
-plot_data <- data.frame(pred_result = test_pred, actual_truth = testing[,1])
-ggplot(plot_data, aes(x=actual_truth, y=pred_result)) + 
+#
+# vis RF prediction v actual
+png(file='c:/coursework/modelRFpVa.png', height=1000, width=1000)  
+plot_data <- data.frame(pred_result = test_pred_rf, actual_result = testing[,1])
+ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
   theme_bw() +
   #geom_text(label=final_res$Origin, size = 3) +
   geom_smooth(method = "lm", se = FALSE) + 
   labs(title = "Departure delay prediction (Random forest)",
-       x     = "Actual truth", 
-       y     = "Prediction results")
-
+       x     = "Actual result", 
+       y     = "Prediction result")
+dev.off()
+#
 var_imp_res <- varImp(train_result_rf)
 variable   <- rownames(var_imp_res$importance)[1:10]
 importance <- var_imp_res$importance[1:10,1]
