@@ -312,7 +312,7 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
 dev.off()
 #
-# Random forest
+# Random forest. Takes up a lot of memory and time even on 100k flights & 1000 trees!
 if(!require(randomForest)) install.packages("randomForest") 
 library(randomForest)
 train_result_rf <- train(DepDelay~., 
