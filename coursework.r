@@ -264,9 +264,8 @@ colnames(f05ML)[nearZeroVar(f05ML)]
 # select variables & ignore NAs
 ML_flight_data <- f05ML[,c("DepDelay", "Month", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
-
-
-### Data prepartion
+#
+# data prep with 90% in training set
 inTrain <- createDataPartition(ML_flight_data$DepDelay, p = 0.9)[[1]]
 training <- ML_flight_data[inTrain,]
 testing  <- ML_flight_data[-inTrain,]
