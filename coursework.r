@@ -336,6 +336,7 @@ ggplot(plot_data, aes(x=actual_result, y=pred_result)) +
        x     = "Actual result", 
        y     = "Prediction result")
 dev.off()
+#
 # vis RF variables of importance
 var_imp_res <- varImp(train_result_rf)
 variable   <- rownames(var_imp_res$importance)
@@ -353,6 +354,7 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
   guides(fill=F) +
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
 dev.off()
-# suumary LM v RF
+#
+# summary LM v RF
 rbind(post_lm, post_rf)
                                
