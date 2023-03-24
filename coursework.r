@@ -281,9 +281,9 @@ train_result_lm <- train(DepDelay~.,
 test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
 post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
 #
-# visualisations LM
-png(file='c:/coursework/modelLM.png', height=1000, width=1000)                              
-plot_data <- data.frame(pred_result = test_pred, actual_result = testing[,1])
+# visualisations LM prediction v actual
+png(file='c:/coursework/modelLMpVa.png', height=1000, width=1000)                              
+plot_data <- data.frame(pred_result = test_pred_lm, actual_result = testing[,1])
 ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
   theme_bw() +
