@@ -281,7 +281,7 @@ train_result_lm <- train(DepDelay~.,
 test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
 post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
 #
-# visualisations LM prediction v actual
+# vis LM prediction v actual
 png(file='c:/coursework/modelLMpVa.png', height=1000, width=1000)                              
 plot_data <- data.frame(pred_result = test_pred_lm, actual_result = testing[,1])
 ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
@@ -293,11 +293,13 @@ ggplot(plot_data, aes(x=actual_result, y=pred_result)) +
        x     = "Actual result", 
        y     = "Predicted result")
 dev.off()
-
+# 
+# vis LM variables of importance
 var_imp_res <- varImp(train_result_lm)
 variable   <- rownames(var_imp_res$importance)[1:10]
 importance <- var_imp_res$importance[1:10,1]
 data_res   <- data.frame(variable, importance)
+png(file='c:/coursework/modelLMimportance.png', height=1000, width=1000)                              
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
   geom_bar(stat="identity", position="dodge")+ coord_flip()+
   geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
@@ -308,8 +310,8 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
         axis.text.y = element_text(face="bold", size= 15)) + 
   guides(fill=F) +
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
-
-
+dev.off()
+#
 # Random forest
 train_result_rf <- train(DepDelay~., 
                          data = training,
