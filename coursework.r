@@ -242,8 +242,8 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # QUERY 5. MODEL.
 #
 # data. note my computer could not handle all 2005 data of 7 million flights. necessary to restrict data.                         
-f05_100k <- f05[1:100000,]
-f05ML <- f05_100k[which(f05_100k$Cancelled==0),]
+f05_10k <- f05[1:10000,]
+f05ML <- f05_10k[which(f05_10k$Cancelled==0),]
 #
 # use caret package                            
 if(!require(caret)) install.packages("caret") 
@@ -257,10 +257,8 @@ library(doParallel)
 #                             
 # see what variables don't matter
 colnames(f05ML)[nearZeroVar(f05ML)]
-# on test 1000 [1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
-# on test 1000 [7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
-# on test all 2005 [1] "Year"              "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"          "SecurityDelay"    
-# on test all 2005 [9] "LateAircraftDelay"
+# on 1k flights [1] "Year"             "Month"            "UniqueCarrier"    "Cancelled"        "CancellationCode" "Diverted"        
+# on 1k flights [7] "CarrierDelay"     "WeatherDelay"     "NASDelay"         "SecurityDelay"
 # on 100k flights [1] "Year"              "Month"             "Cancelled"         "CancellationCode"  "Diverted"          "CarrierDelay"      "WeatherDelay"      "NASDelay"         
 # on 100k flights [9] "SecurityDelay"     "LateAircraftDelay"
 #                              
@@ -312,7 +310,7 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
 dev.off()
 #
-# Random forest. Takes up a lot of memory and time even on 100k flights & 1000 trees!
+# Random forest. Takes up a lot of memory and time even on 10k flights & 1000 trees!
 if(!require(randomForest)) install.packages("randomForest") 
 library(randomForest)
 train_result_rf <- train(DepDelay~., 
