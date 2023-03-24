@@ -265,7 +265,7 @@ colnames(f05ML)[nearZeroVar(f05ML)]
 # on 100k flights [9] "SecurityDelay"     "LateAircraftDelay"
 #                              
 # select variables & ignore NAs
-ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DepTime", "ArrDelay", "Origin", "Dest")]
+ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DayofMonth", "DepTime", "ArrDelay")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 #
 # data prep with 90% in training set
@@ -296,8 +296,8 @@ dev.off()
 # 
 # vis LM variables of importance
 var_imp_res <- varImp(train_result_lm)
-variable   <- rownames(var_imp_res$importance)[1:10]
-importance <- var_imp_res$importance[1:10,1]
+variable   <- rownames(var_imp_res$importance)
+importance <- var_imp_res$importance[,1]
 data_res   <- data.frame(variable, importance)
 png(file='c:/coursework/modelLMimportance.png', height=1000, width=1000)                              
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
