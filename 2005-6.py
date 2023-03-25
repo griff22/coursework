@@ -284,18 +284,33 @@ import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn import svm
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import mean_absolute_error, median_absolute_error, explained_variance_score, r2_score
-# from sklearn.metrics import plot_roc_curve
-# from sklearn.model_selection import GridSearchCV
-# from sklearn.ensemble import GradientBoostingClassifier
-# from sklearn.pipeline import Pipeline
-# from sklearn.preprocessing import StandardScaler, OneHotEncoder
-# from sklearn.compose import ColumnTransformer
+from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error, explained_variance_score, r2_score
 #
 # initialise dataframes
+df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
+df = df[df.Cancelled != 1]
+df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance', 'DepDelay']]
+# Imputer
+X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
+y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+# Train linear regression model
+reg = LinearRegression().fit(X_train, y_train)
+len(y_test), len(reg.predict(X_test))
+plt.scatter(y_test, reg.predict(X_test))
+median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
+explained_variance_score(y_test, reg.predict(X_test))
+r2_score(y_test, reg.predict(X_test))
+y_test, reg.predict(X_test)
+
+
+
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
 # df_model = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
 # 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excluded as they're strings.
