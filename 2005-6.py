@@ -319,6 +319,15 @@ median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, r
 explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
-
+#
+# logistic regression. memory issues so restricted data
+df=df.iloc[1:100000]
+X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
+y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+#
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+flatn_y_train = np.ravel(y_train)
+log_regression.fit(X_train,flatn_y_train)
 
 
