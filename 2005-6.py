@@ -376,7 +376,7 @@ y_pred = log_regression.predict(X_test)
 #plt.legend(loc=4)
 #plt.show()
 #
-# RANDOM FORESTS attempt
+# END
 
 
 
