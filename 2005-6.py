@@ -340,18 +340,25 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 #
 # Fitting
 log_regression = LogisticRegression()
+#
+# Scaling needed
+scaler = preprocessing.StandardScaler().fit(X_train)
+X_scaled = scaler.transform(X_train)
+X, y = make_classification(random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+pipe = make_pipeline(StandardScaler(), LogisticRegression())
+pipe.fit(X_train, y_train)  # apply scaling on training data
+pipe.score(X_test, y_test) # 0.96
+#
+# Fitting 2
 log_regression.fit(X_train,y_train)
 # max iters reached!
 #
 #
 # y_train = np.ravel(y_train)
-# log_regression.fit(X_train,flatn_y_train)
-# scaler = preprocessing.StandardScaler().fit(X_train)
+# 
 # X_train = scaler.transform(X_train)
-# X, y = make_classification(random_state=42)
-# X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-# pipe = make_pipeline(StandardScaler(), LogisticRegression())
-# pipe.fit(X_train, y_train)  # apply scaling on training data
+# 
 log_regression.fit(X_train,y_train)
 y_pred = log_regression.predict(X_test)
 cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
