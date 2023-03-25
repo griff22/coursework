@@ -300,6 +300,9 @@ from sklearn import metrics
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
 df = df[df.Cancelled != 1]
 df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance', 'DepDelay']]
+# check all there
+len(df) # 14 million
+df.head() #
 #
 # LINEAR REGRESSION.
 # Imputer & define x as features and y as response
