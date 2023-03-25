@@ -136,7 +136,7 @@ plt.xticks(np.arange(0, 51, 1))
 plt.xlabel('Age at Departure (Years)')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Age of aircraft (minutes)')
-plt.savefig('C:/COURSEWORK/age.png')
+plt.savefig('C:/COURSEWORK/agePY.png')
 # Line equation
 # print(f'gradient m: ~{round(m,2)}, intercept c: ~{round(c,2)}')
 # answer gradient +0.08, intercept +22.9
@@ -166,7 +166,7 @@ from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 plt.title(label='2005 all airports', fontsize=30)
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
-plt.savefig('C:/COURSEWORK/05nodes.png')
+plt.savefig('C:/COURSEWORK/05nodesPY.png')
 #
 # 2006
 year = 2006
@@ -186,7 +186,7 @@ from matplotlib.pyplot import figure
 figure(figsize=(25, 17))
 plt.title(label='2006 all airports\nLittle visible change from 2005', fontsize=30)
 nx.draw_circular(digraph, width=list(df[:10]['Weight'] * 0.001), with_labels=True, font_size=7)
-plt.savefig('C:/COURSEWORK/06nodes.png')
+plt.savefig('C:/COURSEWORK/06nodesPY.png')
 # comparing the two years results, no significant differences in node networks but very busy vis
 #
 #
@@ -211,7 +211,7 @@ figure(figsize=(25, 17))
 plt.title('Top networks 2005', fontsize=30)
 # plt.legend(airports)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
-plt.savefig('C:/COURSEWORK/Top_Ten_05nodes.png')
+plt.savefig('C:/COURSEWORK/Top_Ten_05nodesPY.png')
 # top 10 2005 are 2 sub-networks (LGA, BOS, DCA, ORD) and (LAX, LAS & SAN)
 # DCA is Washington, LGA is NY, ORD is Chicago, LAS is Las Vegas)
 #
@@ -236,7 +236,7 @@ figure(figsize=(25, 17))
 plt.title('Top networks 2006', fontsize=30)
 nx.draw_circular(digraph, width=list(df['Weight'] * 0.0001), with_labels=True, font_size=30)
 # plt.legend()
-plt.savefig('C:/COURSEWORK/Top_Ten_06nodes.png')
+plt.savefig('C:/COURSEWORK/Top_Ten_06nodesPY.png')
 # top 10 2006 are 3 sub-networks (LGA, BOS, DCA) and (LAX, LAS & SAN) and (OGG & HNL)
 # HNL is Honolulu and OGG is Kahului
 # Hawaii airports make into top networks in 2006, relegating Chicago from 2005
@@ -273,7 +273,7 @@ for i, txt in enumerate(df['airport']):
     ax.annotate(txt, (df['avg_delay_dest'][i], df['avg_delay_origin'][i]))
 # what is this last line doing?
 plt.title('Cascading Delays per Airport (minutes)')
-plt.savefig('C:/COURSEWORK/cascade.png')
+plt.savefig('C:/COURSEWORK/cascadePY.png')
 # answer is yes, there are cascading failures with 34% of the original delay cascading into its next flight and 66% of the delay caught up.
 #
 #
