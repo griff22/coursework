@@ -120,7 +120,7 @@ GROUP BY AgeAtDep;
 # WHERE Cancelled=0 AND DepDelay>=0 AND AgeAtDep IN (-2, -1, 2005, 2006)
 # GROUP BY AgeAtDep;
 # ''')
-# shows only 2 planes account for outliers. how show?
+# shows only 2 planes account for outliers.
 avg_delay_ageatdep = cur.fetchall()
 avg_delay_ageatdep = {k: v for k,v in avg_delay_ageatdep}
 # 
