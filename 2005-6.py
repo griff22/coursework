@@ -335,7 +335,7 @@ X = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance
 y = df['DepDelay']
 #
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
 # y_train = np.ravel(y_train)
 # log_regression.fit(X_train,flatn_y_train)
 scaler = preprocessing.StandardScaler().fit(X_train)
