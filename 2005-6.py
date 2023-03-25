@@ -308,7 +308,11 @@ reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
 #
 # plot
+plt.title(label='Dep Delay Predict v Actual', fontsize=15)
+plt.xlabel("Actual Dep Delay (Mins)")
+plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
+plt.savefig('C:/COURSEWORK/LM_PY.png')
 #
 # errors. large!
 median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
