@@ -295,15 +295,22 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, median_abso
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
 df = df[df.Cancelled != 1]
 df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance', 'DepDelay']]
-# Imputer
+#
+# Imputer & define x as features and y as response
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+#
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+#
 # Train linear regression model
 reg = LinearRegression().fit(X_train, y_train)
-len(y_test), len(reg.predict(X_test))
+len(y_test), len(reg.predict(X_test)) # check lengths equal
+#
+# plot
 plt.scatter(y_test, reg.predict(X_test))
+#
+# errors. large!
 median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
 explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
@@ -311,60 +318,3 @@ y_test, reg.predict(X_test)
 
 
 
-df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
-# df_model = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
-# 'Year', 'DayOfMonth', 'CRSElapsedTime' ----excluded 'UniqueCarrier', 'TailNum', 'Origin', 'Dest' -- excluded as they're strings.
-# 
-# lb = LabelEncoder() # TODO
-# 
-# Imputer
-X = SimpleImputer().fit_transform(df[['Year', 'Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'CRSElapsedTime', 'Distance']])
-y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
-# X = SimpleImputer().fit_transform(df_model)
-# y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
-#
-# Train-test split
-# y = df['DepDelay']
-# X = df_model
-# X_train, X_test, y_train, y_test = train_test_split(X.index, y, test_size=0.2)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5)
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-# X_train = X.iloc[X_train] # return dataframe train
-# X_test = X.iloc[X_test] # return dataframe train
-#
-# Train linear regression model
-reg = LinearRegression().fit(X_train, y_train)
-#
-# Error
-median_absolute_error(y_test, reg.predict(X_test))
-# mean_absolute_error(reg.predict(X_test), y_test)
-#
-#
-#
-# ORIGINAL
-# Pre-processing pipelines
-# numerical_features = [AgeAtDep, avg_delay_origin]
-# = Pipeline(steps=[
-# ('imputer', SimpleImputer()),
-# ('scaler', StandardScaler())])
-# categorical_features = [Month, DayOfWeek, DepTime]
-# categorical_transformer = Pipeline(steps=[
-# ('imputer', SimpleImputer()),
-# ('onehot', OneHotEncoder(handle_unknown='ignore'))])
-# data_transformer = ColumnTransformer(
-# transformers=[
-# ('numerical', numerical_transformer, numerical_features)
-# ('Categorical', categorical_transformer, categorical_features)])
-#
-# Logistic Regression
-# pipe_lr = Pipeline(steps=[('data_transformer', data_transformer),
-# (pipe_lr', LogisticRegression(max_iter=10000))])
-# X_train, X_test, y-train, y_test = train_test_split(X_initial, y, test_size=0.5, random_state=1)
-# param_grid = {
-# 'data_transformer__numerical__imputer__startegy': ['mean', 'median'],
-# 'data_transformer__categorical__imputer__strategy': ['constant', 'most frequent']
-#}
-# grid_lr = GridSearchCV(pipe_lr, param_grid=param_grid)
-# grid_lr.fit(X_train, y_train);
-#
-# Gradient Boosting & compare ROC curves...
