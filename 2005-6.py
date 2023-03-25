@@ -290,6 +290,7 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error, explained_variance_score, r2_score
+from sklearn import preprocessing
 #
 # initialise dataframes
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
