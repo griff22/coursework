@@ -328,11 +328,11 @@ y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 #
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
-flatn_y_train = np.ravel(y_train)
+y_train = np.ravel(y_train)
 # log_regression.fit(X_train,flatn_y_train)
 from sklearn import preprocessing
 scaler = preprocessing.StandardScaler().fit(X_train)
-X_scaled = scaler.transform(X_train)
+X_train = scaler.transform(X_train)
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
