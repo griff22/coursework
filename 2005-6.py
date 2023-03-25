@@ -302,7 +302,7 @@ df = df[df.Cancelled != 1]
 df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance', 'DepDelay']]
 # check all there
 len(df) # 14 million
-df.head() #
+df.head() # Month	DayOfWeek	CRSDepTime	CRSArrTime	FlightNum	Distance	DepDelay
 #
 # LINEAR REGRESSION.
 # Imputer & define x as features and y as response
@@ -330,6 +330,7 @@ r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
 # LOGISTIC REGRESSION attempt
+# predictor & response varaibles
 X = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
 y = df['DepDelay']
 #
