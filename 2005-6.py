@@ -329,21 +329,29 @@ explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
-# LOGISTIC REGRESSION attempt
+# LOGISTIC REGRESSION attempt - reduce sample size for memory
 # predictor & response varaibles
-X = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
-y = df['DepDelay']
+df_log = df[1:100000]
+X = df_log[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
+y = df_log['DepDelay']
 #
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
+#
+# Fitting
+log_regression = LogisticRegression()
+log_regression.fit(X_train,y_train)
+# max iters reached!
+#
+#
 # y_train = np.ravel(y_train)
 # log_regression.fit(X_train,flatn_y_train)
-scaler = preprocessing.StandardScaler().fit(X_train)
-X_train = scaler.transform(X_train)
-X, y = make_classification(random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-pipe = make_pipeline(StandardScaler(), LogisticRegression())
-pipe.fit(X_train, y_train)  # apply scaling on training data
+# scaler = preprocessing.StandardScaler().fit(X_train)
+# X_train = scaler.transform(X_train)
+# X, y = make_classification(random_state=42)
+# X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+# pipe = make_pipeline(StandardScaler(), LogisticRegression())
+# pipe.fit(X_train, y_train)  # apply scaling on training data
 log_regression.fit(X_train,y_train)
 y_pred = log_regression.predict(X_test)
 cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
