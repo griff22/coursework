@@ -283,7 +283,8 @@ plt.savefig('C:/COURSEWORK/cascadePY.png')
 import sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression # only binary
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import svm
 from sklearn.ensemble import HistGradientBoostingClassifier
@@ -321,7 +322,7 @@ plt.title(label='Dep Delay Predict v Actual', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
-plt.savefig('C:/COURSEWORK/LM_PY.png')
+plt.savefig('C:/COURSEWORK/LM_PY.png') # doesn't work well!
 #
 # LM errors. large!
 median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
@@ -329,7 +330,15 @@ explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
-# LOGISTIC REGRESSION attempt - reduce sample size for memory
+# RANDOM FORESTS attempt
+print(df.isnull().sum()) # Checking that no missing data exists 
+
+
+
+
+
+
+# LOGISTIC REGRESSION attempt - reduce sample size for memory - but only for binary!
 # predictor & response varaibles
 df_log = df[1:100000]
 X = df_log[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
@@ -339,7 +348,7 @@ y = df_log['DepDelay']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
 #
 # Fitting
-log_regression = LogisticRegression()
+#log_regression = LogisticRegression()
 #
 # Scaling needed
 scaler = preprocessing.StandardScaler().fit(X_train)
@@ -351,26 +360,23 @@ pipe.fit(X_train, y_train)  # apply scaling on training data
 pipe.score(X_test, y_test) # 0.96
 #
 # Fitting 2
-log_regression.fit(X_train,y_train)
+#log_regression.fit(X_train,y_train)
 # max iters reached!
-#
-#
 # y_train = np.ravel(y_train)
-# 
-# X_train = scaler.transform(X_train)
-# 
-log_regression.fit(X_train,y_train)
 y_pred = log_regression.predict(X_test)
-cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
-cnf_matrix
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-y_pred_proba = log_regression.predict_proba(X_test)[::,1]
-fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
-auc = metrics.roc_auc_score(y_test, y_pred_proba)
-plt.plot(fpr,tpr,label="AUC="+str(auc))
-plt.legend(loc=4)
-plt.show()
-
+#
+# Diagnostics - tell me something isn't right!
+#cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+#cnf_matrix
+#print("Accuracy:",metrics.accuracy_score(y_test, y_pred)) #1 cannot be!
+#y_pred_proba = log_regression.predict_proba(X_test)[::,1]
+#fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
+#auc = metrics.roc_auc_score(y_test, y_pred_proba)
+#plt.plot(fpr,tpr,label="AUC="+str(auc))
+#plt.legend(loc=4)
+#plt.show()
+#
+# RANDOM FORESTS attempt
 
 
 
