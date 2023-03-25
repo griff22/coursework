@@ -297,6 +297,7 @@ df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.
 df = df[df.Cancelled != 1]
 df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance', 'DepDelay']]
 #
+# LINEAR REGRESSION.
 # Imputer & define x as features and y as response
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
@@ -321,13 +322,13 @@ explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
-# logistic regression. memory issues so restricted data
+# LOGISTIC REGRESSION attempt
 X = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
 y = df['DepDelay']
 #
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
-y_train = np.ravel(y_train)
+# y_train = np.ravel(y_train)
 # log_regression.fit(X_train,flatn_y_train)
 from sklearn import preprocessing
 scaler = preprocessing.StandardScaler().fit(X_train)
