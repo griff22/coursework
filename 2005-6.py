@@ -329,6 +329,32 @@ y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 flatn_y_train = np.ravel(y_train)
-log_regression.fit(X_train,flatn_y_train)
+# log_regression.fit(X_train,flatn_y_train)
+from sklearn import preprocessing
+scaler = preprocessing.StandardScaler().fit(X_train)
+X_scaled = scaler.transform(X_train)
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+X, y = make_classification(random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+from sklearn.preprocessing import StandardScaler
+pipe = make_pipeline(StandardScaler(), LogisticRegression())
+pipe.fit(X_train, y_train)  # apply scaling on training data
+log_regression.fit(X_train,y_train)
+y_pred = log_regression.predict(X_test)
+from sklearn import metrics
+cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+y_pred_proba = log_regression.predict_proba(X_test)[::,1]
+fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
+auc = metrics.roc_auc_score(y_test, y_pred_proba)
+plt.plot(fpr,tpr,label="AUC="+str(auc))
+plt.legend(loc=4)
+plt.show()
+
+
+
+
 
 
