@@ -322,9 +322,8 @@ r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
 # logistic regression. memory issues so restricted data
-df=df.iloc[1:100000]
-X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
-y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+X = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']]
+y = df['DepDelay']
 #
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
@@ -345,6 +344,7 @@ log_regression.fit(X_train,y_train)
 y_pred = log_regression.predict(X_test)
 from sklearn import metrics
 cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+cnf_matrix
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
 y_pred_proba = log_regression.predict_proba(X_test)[::,1]
 fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
