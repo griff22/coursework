@@ -291,6 +291,11 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error, explained_variance_score, r2_score
 from sklearn import preprocessing
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn import metrics
 #
 # initialise dataframes
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
@@ -330,20 +335,14 @@ y = df['DepDelay']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 # y_train = np.ravel(y_train)
 # log_regression.fit(X_train,flatn_y_train)
-from sklearn import preprocessing
 scaler = preprocessing.StandardScaler().fit(X_train)
 X_train = scaler.transform(X_train)
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
 X, y = make_classification(random_state=42)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
-from sklearn.preprocessing import StandardScaler
 pipe = make_pipeline(StandardScaler(), LogisticRegression())
 pipe.fit(X_train, y_train)  # apply scaling on training data
 log_regression.fit(X_train,y_train)
 y_pred = log_regression.predict(X_test)
-from sklearn import metrics
 cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
 cnf_matrix
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
