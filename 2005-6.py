@@ -313,25 +313,23 @@ y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 #
-# LINEAR REGRESSION.
+# LINEAR REGRESSION
 # Train linear regression model
 reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
-#
 # plot LM
 plt.title(label='Dep Delay Predict v Actual using LM', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
 plt.savefig('C:/COURSEWORK/LM_PY.png') # doesn't work well!
-#
 # LM errors. large!
 median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
 explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 #
 #
-# RANDOM FORESTS attempt - memory issues so had to subset sample
+# RANDOM FORESTS - memory issues so had to subset sample
 print(df.isnull().sum()) # Checking that no missing data exists 
 df = df.loc[1:100000]
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
