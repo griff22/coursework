@@ -316,7 +316,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
 # plot LM
-plt.title(label='Dep Delay Predict v Actual using LM', fontsize=15)
+plt.title(label='Dep Delay Predict v Actual using LinearReg', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
@@ -337,7 +337,7 @@ rf_clf = RandomForestClassifier(criterion='entropy')
 rf_clf.fit(X_train,y_train.ravel())
 y_predict = rf_clf.predict(X_test)
 accuracy_score(y_test,y_predict) # 6% on 10k, 17% on 100k
-plt.title(label='Dep Delay Predict v Actual using RF', fontsize=15)
+plt.title(label='Dep Delay Predict v Actual using RandomForests', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, y_predict)
