@@ -333,7 +333,7 @@ y_test, reg.predict(X_test)
 #
 # RANDOM FORESTS attempt - memory issues so had to subset sample
 print(df.isnull().sum()) # Checking that no missing data exists 
-df = df.loc[1:10000]
+df = df.loc[1:100000]
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
