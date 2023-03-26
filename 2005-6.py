@@ -331,7 +331,7 @@ explained_variance_score(y_test, reg.predict(X_test))
 r2_score(y_test, reg.predict(X_test))
 y_test, reg.predict(X_test)
 #
-# RANDOM FORESTS attempt
+# RANDOM FORESTS attempt - memory issues so had to subset sample
 print(df.isnull().sum()) # Checking that no missing data exists 
 df = df.loc[1:10000]
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
