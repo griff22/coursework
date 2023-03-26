@@ -296,6 +296,7 @@ from sklearn.datasets import make_classification
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 #
 # initialise dataframes
 df = pd.concat([pd.read_csv("C:/dataverse/2005.csv.bz2", compression="bz2"), pd.read_csv("C:/dataverse/2006.csv.bz2", compression="bz2")], ignore_index=True)
@@ -338,6 +339,10 @@ y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 rf_clf = RandomForestClassifier(criterion='entropy') 
 rf_clf.fit(X_train,y_train.ravel())
+y_predict = rf_clf.predict(X_test)
+accuracy_score(y_test,y_predict) # 5% on 10k
+
+
 
 # LOGISTIC REGRESSION attempt - reduce sample size for memory - but only for binary!
 # predictor & response varaibles
