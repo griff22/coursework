@@ -349,20 +349,6 @@ plt.savefig('C:/COURSEWORK/RF_PY.png') # small sample
 median_absolute_error(y_test, y_predict), mean_squared_error(y_test, y_predict) # 8 mins, 2000 mins
 explained_variance_score(y_test, y_predict) # -0.69
 r2_score(y_test, y_predict) # -0.69
-
-
-
-#
-# Diagnostics - tell me something isn't right!
-#cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
-#cnf_matrix
-#print("Accuracy:",metrics.accuracy_score(y_test, y_pred)) #1 cannot be!
-#y_pred_proba = log_regression.predict_proba(X_test)[::,1]
-#fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
-#auc = metrics.roc_auc_score(y_test, y_pred_proba)
-#plt.plot(fpr,tpr,label="AUC="+str(auc))
-#plt.legend(loc=4)
-#plt.show()
 #
 # END
 
