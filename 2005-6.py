@@ -340,7 +340,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 rf_clf = RandomForestClassifier(criterion='entropy') 
 rf_clf.fit(X_train,y_train.ravel())
 y_predict = rf_clf.predict(X_test)
-accuracy_score(y_test,y_predict) # 5% on 10k
+accuracy_score(y_test,y_predict) # 6% on 10k, 17% on 100k
 
 
 
