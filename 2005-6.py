@@ -319,7 +319,7 @@ reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
 #
 # plot LM
-plt.title(label='Dep Delay Predict v Actual', fontsize=15)
+plt.title(label='Dep Delay Predict v Actual using LM', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
@@ -341,8 +341,11 @@ rf_clf = RandomForestClassifier(criterion='entropy')
 rf_clf.fit(X_train,y_train.ravel())
 y_predict = rf_clf.predict(X_test)
 accuracy_score(y_test,y_predict) # 6% on 10k, 17% on 100k
-
-
+plt.title(label='Dep Delay Predict v Actual using RF', fontsize=15)
+plt.xlabel("Actual Dep Delay (Mins)")
+plt.ylabel("Predict Dep Delay (Mins)")
+plt.scatter(y_test, y_predict)
+plt.savefig('C:/COURSEWORK/RF_PY.png') # small sample
 
 # LOGISTIC REGRESSION attempt - reduce sample size for memory - but only for binary!
 # predictor & response varaibles
