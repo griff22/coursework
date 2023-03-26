@@ -322,9 +322,9 @@ plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
 plt.savefig('C:/COURSEWORK/LM_PY.png') # doesn't work well!
 # LM errors. large!
-median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test))
-explained_variance_score(y_test, reg.predict(X_test))
-r2_score(y_test, reg.predict(X_test))
+median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test)) # 11 mins, 1000 mins
+explained_variance_score(y_test, reg.predict(X_test)) # 0.02
+r2_score(y_test, reg.predict(X_test)) # 0.02
 #
 #
 # RANDOM FORESTS - memory issues so had to subset sample
