@@ -305,7 +305,6 @@ df = df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distanc
 len(df) # 14 million
 df.head() # Month	DayOfWeek	CRSDepTime	CRSArrTime	FlightNum	Distance	DepDelay
 #
-# LINEAR REGRESSION.
 # Imputer & define x as features and y as response
 X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
@@ -313,6 +312,7 @@ y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 #
+# LINEAR REGRESSION.
 # Train linear regression model
 reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
