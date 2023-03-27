@@ -226,7 +226,8 @@ summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
 # answer for test 05 data. intercept 11.4 minutes, gradient = 0.41 minutes. similar answer to Python but R took much longer to run                              
 # answer for all 05 & 06. intercept 5.2 minutes, gradient = 0.54 minutes. looks odd with warning messages and many negative dep delays.
 # final answer. yes, there are cascading delays with approx 50% of the delay cascading into subsequent flight of airplane & 50% caught up.
-# -------------------------------------------------------------
+#
+# ----------------------------------------------------------------------------------------------------------------------------------------
 # QUERY 5. MODEL.
 #
 # data. note my computer could not handle all 2005 data of 7 million flights. necessary to restrict data to 10k flights in 2005                      
