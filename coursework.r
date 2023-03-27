@@ -260,7 +260,7 @@ inTrain <- createDataPartition(ML_flight_data$DepDelay, p = 0.9)[[1]]
 training <- ML_flight_data[inTrain,]
 testing  <- ML_flight_data[-inTrain,]
 #
-# Linear regression
+# LINEAR REGRESSION.
 train_result_lm <- train(DepDelay~., 
   data = training,
   method = "lm",
@@ -299,7 +299,7 @@ ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importanc
   scale_fill_gradient2(low="yellow2", mid = "orange", high="hotpink", midpoint = 50)
 dev.off()
 #
-# Random forest. Tuning takes up a lot of memory and time even on 10k flights & 1000 trees!
+# RANDOM FOREST. Tuning takes up a lot of memory and time even on 10k flights & 1000 trees!
 if(!require(randomForest)) install.packages("randomForest") 
 library(randomForest)
 train_result_rf <- train(DepDelay~., 
@@ -312,7 +312,7 @@ test_pred_rf  <- predict(train_result_rf, newdata=testing[,-1])
 post_rf <- postResample(pred = test_pred_rf, obs = testing[,1])
 #
 # vis RF prediction v actual
-png(file='c:/coursework/modelRFpVa.png', height=1000, width=1000)  
+png(file='c:/coursework/modelRFpVa2.png', height=1000, width=1000)  
 plot_data <- data.frame(pred_result = test_pred_rf, actual_result = testing[,1])
 ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
@@ -329,7 +329,7 @@ var_imp_res <- varImp(train_result_rf)
 variable   <- rownames(var_imp_res$importance)
 importance <- var_imp_res$importance[,1]
 data_res   <- data.frame(variable, importance)
-png(file='c:/coursework/modelRFimportance.png', height=1000, width=1000) 
+png(file='c:/coursework/modelRFimportance2.png', height=1000, width=1000) 
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
   geom_bar(stat="identity", position="dodge")+ coord_flip()+
   geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
