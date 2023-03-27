@@ -182,10 +182,10 @@ for (i in 1:nrow(data_for_ori_dest2)) {
 }
 colnames(depdelay) <- c("Flight_1_delay", "Flight_2_delay", "Flight_3_delay")
 data_for_ori_dest3 <- data.frame(data_for_ori_dest2[,-5],depdelay)
-mean(data_for_ori_dest3$Flight_1_delay) #15.99166
-mean(data_for_ori_dest3$Flight_2_delay) #19.68736
-mean(data_for_ori_dest3$Flight_3_delay, na.rm = TRUE) #22.77885
-
+mean(data_for_ori_dest3$Flight_1_delay) #16.0 mins
+mean(data_for_ori_dest3$Flight_2_delay) #19.7 mins
+mean(data_for_ori_dest3$Flight_3_delay, na.rm = TRUE) #22.8 mins
+# this shows that on average, delays accumulate and increase as a plane goes from one airport to another. This seems reasonable. 
 
 
 
