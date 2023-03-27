@@ -313,7 +313,7 @@ test_pred_rf  <- predict(train_result_rf, newdata=testing[,-1])
 post_rf <- postResample(pred = test_pred_rf, obs = testing[,1])
 #
 # vis RF prediction v actual
-png(file='c:/coursework/modelRFpVa2.png', height=1000, width=1000)  
+png(file='c:/coursework/modelRFpVa3.png', height=1000, width=1000)  
 plot_data <- data.frame(pred_result = test_pred_rf, actual_result = testing[,1])
 ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
