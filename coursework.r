@@ -253,7 +253,7 @@ colnames(f05ML)[nearZeroVar(f05ML)]
 #                              
 # select variables & ignore NAs
 # ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DayofMonth", "DepTime", "ArrDelay")]
-ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DayofMonth", "DepTime")]
+ML_flight_data <- f05ML[,c("DepDelay", "DayOfWeek", "DayofMonth", "CRSDepTime")]
 ML_flight_data <- ML_flight_data[complete.cases(ML_flight_data),]
 #
 # data prep with 90% in training set
@@ -270,7 +270,7 @@ test_pred_lm  <- predict(train_result_lm, newdata=testing[,-1])
 post_lm <- postResample(pred = test_pred_lm, obs = testing[,1])
 #
 # vis LM prediction v actual
-png(file='c:/coursework/modelLMpVa2.png', height=1000, width=1000)                              
+png(file='c:/coursework/modelLMpVa3.png', height=1000, width=1000)                              
 plot_data <- data.frame(pred_result = test_pred_lm, actual_result = testing[,1])
 ggplot(plot_data, aes(x=actual_result, y=pred_result)) + 
   geom_point() +
@@ -287,7 +287,7 @@ var_imp_res <- varImp(train_result_lm)
 variable   <- rownames(var_imp_res$importance)
 importance <- var_imp_res$importance[,1]
 data_res   <- data.frame(variable, importance)
-png(file='c:/coursework/modelLMimportance2.png', height=1000, width=1000)                              
+png(file='c:/coursework/modelLMimportance3.png', height=1000, width=1000)                              
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
   geom_bar(stat="identity", position="dodge")+ coord_flip()+
   geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
@@ -330,7 +330,7 @@ var_imp_res <- varImp(train_result_rf)
 variable   <- rownames(var_imp_res$importance)
 importance <- var_imp_res$importance[,1]
 data_res   <- data.frame(variable, importance)
-png(file='c:/coursework/modelRFimportance2.png', height=1000, width=1000) 
+png(file='c:/coursework/modelRFimportance3.png', height=1000, width=1000) 
 ggplot(data_res, aes(x=reorder(variable,importance), y=importance,fill=importance, width = .5))+ 
   geom_bar(stat="identity", position="dodge")+ coord_flip()+
   geom_text(aes(label = round(importance)), hjust = -0.2, color = "black", size = 5) + 
