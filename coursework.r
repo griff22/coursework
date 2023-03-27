@@ -59,7 +59,7 @@ for(i in 1:24){
 }
 which.min(mean_dep) #answer is hour 6 which is 0500-0600 as no flights 0400-0500
 png(file='c:/coursework/HourR.png', height=1000, width=1000)
-barplot(mean_dep, names.arg=1:24, cex.names = 0.7, col = "lightblue", main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
+barplot(mean_dep, names.arg=1:24, cex.names = 0.7, main = "Best Hour on Tuesdays in April 05 & 06", xlab = "Delay(mins)", ylab = "Hour")
 dev.off()
 #
 # -------------------------------------------
