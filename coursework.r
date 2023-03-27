@@ -75,10 +75,10 @@ age_2005 <- 2005-as.numeric(p$year)
 p2 <- cbind(p, age_2005)
 age_2006 <- 2006-as.numeric(p$year)
 p3 <- cbind(p2, age_2006)
-av_age <- 2005.5-as.numeric(p$year)
+av_age <- 2005.5-as.numeric(p$year) # average age in 2005 & 06
 p4 <- cbind(p3, av_age)
 p_clean <- p4 %>% drop_na()
-p_final <- subset(p_clean, !(p_clean$age_2005 %in% c(-3, -2, -1, 2005, 2006)))
+p_final <- subset(p_clean, !(p_clean$age_2005 %in% c(-3, -2, -1, 2005, 2006))) # ignore dirty data
 #
 # dep delay per tail number
 by_tail <- dbGetQuery(conn, 'SELECT TailNum, AVG(DepDelay) from flights WHERE Cancelled=0 AND DepDelay >=0 GROUP BY TailNum')
@@ -86,20 +86,8 @@ by_tail <- dbGetQuery(conn, 'SELECT TailNum, AVG(DepDelay) from flights WHERE Ca
 #
 # join
 joined_tail <- merge(by_tail, p_final, by.x="TailNum", by.y="tailnum")
-# flights05_tailnum <- intersect(plane.data$tailnum, unique(Flights_2005$TailNum))
-# tailnum_2005_planedata <- plane.data$tailnum %in% flights05_tailnum
-# tailnum_2005_flightdata <- avg_dep_delay_tailnum$Group.1 %in% flights05_tailnum
-# age_2005_depdelay <- data.frame(tailnum=flights05_tailnum, age=age_2005[tailnum_2005_planedata], avgddelay= avg_dep_delay_tailnum$x[tailnum_2005_flightdata])
-# age_2005_depdelay1 <- age_2005_depdelay[complete.cases(age_2005_depdelay), ]
-# age_2005_depdelay2 <- age_2005_depdelay1[which(age_2005_depdelay1$age >=0),]
-# age_2005_depdelay3 <- age_2005_depdelay2[-which(age_2005_depdelay2$age ==2005),]
-# age_05_avg_ddelay <- aggregate(age_2005_depdelay3$avgddelay, list(age_2005_depdelay3$age), mean)
-# age_05_avg_ddelay1 <- data.frame(age=as.factor(age_05_avg_ddelay$Group.1), avgddelay=age_05_avg_ddelay$x)
-# age_05_avg_ddelay2 <- data.frame(avgddelay=age_05_avg_ddelay$x)
-# rownames(age_05_avg_ddelay2) <- age_05_avg_ddelay1$age
 #
 # plots
-# barplot(age_05_avg_ddelay2$avgddelay) 
 png(file='c:/coursework/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 abline(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age), col='orange')
