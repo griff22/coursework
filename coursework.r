@@ -168,13 +168,11 @@ f0506a <- f0506[which(f0506$Cancelled==0 & f0506$DepDelay>=0, f0506$TailNum!=0),
 order_num <- order(f0506a$Year, f0506a$Month, f0506a$DayofMonth, f0506a$DepTime)
 f0506b <- f0506a[order_num,]
 #average_delay_dest <- aggregate(f_05a$DepDelay, by = list(f_05a$Dest), mean)
-
 data_for_ori_dest <- aggregate(data.frame(f0506b$DepDelay), 
                                by = list(f0506b$Year, f0506b$Month, f0506b$DayofMonth, f0506b$TailNum), 
                                function(x)  list(x))
 data_for_ori_dest2 <- data_for_ori_dest[which(unlist(lapply(data_for_ori_dest$f0506b.DepDelay, length))>1),]
 max(unlist(lapply(data_for_ori_dest2$f0506b.DepDelay, length))) #20 flights in one day by one plane!
-
 depdelay <- matrix(NA, nrow = nrow(data_for_ori_dest2), ncol=3)
 for (i in 1:nrow(data_for_ori_dest2)) {
   depdelay[i,1] <- data_for_ori_dest2$f0506b.DepDelay[[i]][1]
@@ -187,92 +185,6 @@ mean(data_for_ori_dest3$Flight_1_delay) #16.9 mins
 mean(data_for_ori_dest3$Flight_2_delay) #21.0 mins
 mean(data_for_ori_dest3$Flight_3_delay, na.rm = TRUE) #24.8 mins
 # this shows that on average, delays accumulate and increase as a plane goes from one airport to another. This seems reasonable. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-test data 
-# f05_1000 <- f05
-f0506 <- rbind(f05, f06)
-f0506a <- f0506[which(f0506$Cancelled==0 & f0506$DepDelay>=0),]
-#
-# dep delay at leaving airport
-average_delay_dest <- aggregate(f0506$DepDelay, by = list(f0506$Dest), mean)
-data_for_ori_dest <- aggregate(data.frame(f0506$DepDelay), 
-                               by = list(f0506$Year, f0506$Month, f0506$DayofMonth, f0506$Origin, f0506$Dest), 
-                               function(x)  list(x))
-colnames(data_for_ori_dest) <- c("Year", "Month", "DayofMonth", "Origin", "Dest", "DepDelay")
-#
-# find dep delay at origin airport
-origin_unique <- unique(data_for_ori_dest$Origin)                               
-res <- vector()
-for (i in 1:length(origin_unique)) {
-  xx <- which(data_for_ori_dest$Dest==origin_unique[i])
-  if(length(xx)>0){
-    new_data <- data_for_ori_dest[xx,]
-    new_data$DepDelay <- unlist(lapply(new_data$DepDelay, mean))
-    new_data1 <- aggregate(new_data$DepDelay, by = list(new_data$Year, new_data$Month, new_data$DayofMonth), mean)
-    res <- rbind(res, data.frame(new_data1, Dest = rep(origin_unique[i], nrow(new_data1))))
-  }
-  else{
-    next
-  }
-}
-colnames(res) <- c("Year", "Month", "DayofMonth", "DepDelay_for_origin", "Origin")
-data_for_ori_dest1 <- aggregate(data.frame(f0506$DepDelay), 
-                                by = list(f0506$Year, f0506$Month, f0506$DayofMonth, f0506$Origin), 
-                                mean)
-colnames(data_for_ori_dest1) <- c("Year", "Month", "DayofMonth", "Origin", "DepDelay_for_dest")
-DepDelay_for_origin <- vector()
-for (i in 1:nrow(data_for_ori_dest1)) {
-  line_info <-   which(
-      res$Year == data_for_ori_dest1$Year[i] &      
-      res$Month == data_for_ori_dest1$Month[i] & 
-      res$DayofMonth == data_for_ori_dest1$DayofMonth[i] & 
-      res$Origin == data_for_ori_dest1$Origin[i]
-  )
-  if(length(line_info)>0){
-    DepDelay_for_origin[i] <- res$DepDelay_for_origin[line_info]
-  }
-  else{
-    DepDelay_for_origin[i] <- 0
-  }
-}
-final_res <- data.frame(data_for_ori_dest1, DepDelay_for_origin)     
-final2 <- final_res[final_res$DepDelay_for_origin != 0, ]
-#
-# plot
-png(file='c:/coursework/CascadeRall0506.png', height=1000, width=1000)
-ggplot(final2, aes(x=DepDelay_for_dest, y=DepDelay_for_origin)) + 
-  theme_bw() +
-  geom_text(label=final2$Origin, size = 3) +
-  stat_poly_line() +
-  stat_poly_eq(aes(label = paste(after_stat(eq.label),
-                                 after_stat(rr.label), sep = "*\", \"*"))) +
-  geom_point() +                           
-  labs(title = "Cascading delays between airports", x = "Delay at the destination airport", y = "Departure delay at the origin airport")
-dev.off()
-summary(lm(final2$DepDelay_for_origin ~ final2$DepDelay_for_dest))$coefficients
-# answer for test 05 data. intercept 11.4 minutes, gradient = 0.41 minutes. similar answer to Python but R took much longer to run                              
-# answer for all 05 & 06. intercept 5.2 minutes, gradient = 0.54 minutes. looks odd with warning messages and many negative dep delays.
-# final answer. yes, there are cascading delays with approx 50% of the delay cascading into subsequent flight of airplane & 50% caught up.
 #
 # ----------------------------------------------------------------------------------------------------------------------------------------
 # QUERY 5. MODEL.
