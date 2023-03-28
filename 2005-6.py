@@ -328,22 +328,21 @@ r2_score(y_test, reg.predict(X_test)) # 0.09
 #
 # RANDOM FORESTS - memory issues so had to subset sample
 print(df.isnull().sum()) # Checking that no missing data exists 
-df = df.loc[1:10000]
-X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
-y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+#X = SimpleImputer().fit_transform(df[['Month', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'FlightNum', 'Distance']])
+#y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 rf_clf = RandomForestClassifier(criterion='entropy') 
 rf_clf.fit(X_train,y_train.ravel())
 y_predict = rf_clf.predict(X_test)
-accuracy_score(y_test,y_predict) # 6% on 10k, 17% on 100k
+accuracy_score(y_test,y_predict) # 4% on 10k, 17% on 100k
 plt.title(label='Dep Delay Predict v Actual using RandomForests', fontsize=15)
 plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, y_predict)
-plt.savefig('C:/COURSEWORK/RF_PY.png') # small sample
-median_absolute_error(y_test, y_predict), mean_squared_error(y_test, y_predict) # 8 mins, 2000 mins
-explained_variance_score(y_test, y_predict) # -0.69
-r2_score(y_test, y_predict) # -0.69
+plt.savefig('C:/COURSEWORK/RF_PYrestrict.png') # small sample
+median_absolute_error(y_test, y_predict), mean_squared_error(y_test, y_predict) # 9 mins, 3045 mins
+explained_variance_score(y_test, y_predict) # -0.76
+r2_score(y_test, y_predict) # -0.76
 #
 # END
 
