@@ -303,14 +303,13 @@ df = df[['Month', 'DayofMonth', 'DayOfWeek', 'CRSDepTime', 'CRSArrTime', 'Flight
 # check all there
 len(df) # 14 million
 df = df.loc[1:10000] # restricted sample due to Random Forests computing power required
-#
-# LINEAR REGRESSION
-
 # Imputer & define x as features and y as response
 X = SimpleImputer().fit_transform(df[['DayofMonth', 'DayOfWeek', 'CRSDepTime']])
 y = SimpleImputer().fit_transform(np.array(df['DepDelay']).reshape(-1, 1))
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+#
+# LINEAR REGRESSION
 # Train linear regression model
 reg = LinearRegression().fit(X_train, y_train)
 len(y_test), len(reg.predict(X_test)) # check lengths equal
@@ -321,7 +320,7 @@ plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, reg.predict(X_test))
 plt.savefig('C:/COURSEWORK/LM_PYrestrict.png') # doesn't work well!
 # LM errors. large!
-median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test)) # 16 mins, 1575 mins
+median_absolute_error(y_test, reg.predict(X_test)), mean_squared_error(y_test, reg.predict(X_test), squared=False) # 16 mins, 39.70 mins
 explained_variance_score(y_test, reg.predict(X_test)) # 0.09
 r2_score(y_test, reg.predict(X_test)) # 0.09
 #
@@ -340,7 +339,7 @@ plt.xlabel("Actual Dep Delay (Mins)")
 plt.ylabel("Predict Dep Delay (Mins)")
 plt.scatter(y_test, y_predict)
 plt.savefig('C:/COURSEWORK/RF_PYrestrict.png') # small sample
-median_absolute_error(y_test, y_predict), mean_squared_error(y_test, y_predict) # 9 mins, 3045 mins
+median_absolute_error(y_test, y_predict), mean_squared_error(y_test, y_predict, squared=False) # 9 mins, 55.18 mins
 explained_variance_score(y_test, y_predict) # -0.76
 r2_score(y_test, y_predict) # -0.76
 #
