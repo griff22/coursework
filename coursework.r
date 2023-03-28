@@ -92,8 +92,8 @@ png(file='c:/coursework/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 abline(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age), col='orange')
 summary(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age))$coefficients
-# answer. intercept 24.2 minutes, gradient = 0.05 minutes/ year.
-text(x=40, y=70, "y = mx + c is y mins=0.05x + 24.2", col="red", cex=2)
+# answer. intercept 24.10 minutes, gradient = 0.05 minutes/ year.
+text(x=40, y=70, "y = mx + c is y mins=0.05x + 24.19", col="red", cex=2)
 dev.off()
 #
 # ----------------------------------------------------------
