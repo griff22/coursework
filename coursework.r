@@ -92,7 +92,7 @@ png(file='c:/coursework/AgeR.png', height=1000, width=1000)
 plot(joined_tail$av_age, joined_tail$`AVG(DepDelay)`, main='Av Delay per Aircraft Age in 05 & 06', xlab='Age (years)', ylab='Delay(mins)')
 abline(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age), col='orange')
 summary(lm(joined_tail$`AVG(DepDelay)` ~ joined_tail$av_age))$coefficients
-# answer. intercept 24.10 minutes, gradient = 0.05 minutes/ year.
+# answer. intercept 24.19 minutes, gradient = 0.05 minutes/ year.
 text(x=40, y=70, "y = mx + c is y mins=0.05x + 24.19", col="red", cex=2)
 dev.off()
 #
@@ -306,8 +306,8 @@ dev.off()
 rbind(post_lm, post_rf)
 # final answer is RF gives an improved result over LM but takes much longer.
 # -----------RMSE  Rsquared       MAE
-# post_lm 43.10457 0.04711788 25.49625
-# post_rf 39.18555 0.21275504 22.40300
+# post_lm 36.78911 0.1139163 23.61412
+# post_rf 35.14620 0.2033085 21.52686
 # END
 ---------------------------------------------------------------------------------------------
                                
