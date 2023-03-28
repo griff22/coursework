@@ -137,7 +137,7 @@ plt.xlabel('Age at Departure (Years)')
 plt.ylabel('Minutes Delay')
 plt.title('Average Departure Delay per Age of aircraft (minutes)')
 plt.savefig('C:/COURSEWORK/agePY.png')
-# answer gradient +0.08, intercept +22.9
+# answer gradient +0.08, intercept +22.88
 # answer is yes, older planes suffer more delays
 # ie. each year older, adds 0.08 minute delay
 # eg. 50 year old aircraft adds 50*0.08=4 minutes delay
